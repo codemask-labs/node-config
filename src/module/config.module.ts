@@ -1,12 +1,9 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common'
-import { ConfigModuleRootOptions, ConfigModuleFeatureOptions, ConfigMap } from 'lib/types'
-import { ConfigService } from 'module/config.service'
+import { ConfigModuleRootOptions, ConfigModuleFeatureOptions } from 'lib/types'
+import { ConfigService } from './config.service'
 
 @Module({})
 export class ConfigModule {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static configMap: ConfigMap = new Map()
-
     static forRoot(options: ConfigModuleRootOptions): DynamicModule {
         const { global, config } = options
         const configs = Array.isArray(config) ? config : [config]
@@ -17,7 +14,7 @@ export class ConfigModule {
         }
 
         return {
-            global: global || true,
+            global: global ?? true,
             module: ConfigModule,
             providers: [provider],
             exports: [ConfigService]
