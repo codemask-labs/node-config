@@ -6,11 +6,9 @@ import { ConfigService } from './config.service'
 export class ConfigModule {
     static forRoot(options: ConfigModuleRootOptions): DynamicModule {
         const { global, config } = options
-        const configs = Array.isArray(config) ? config : [config]
-        const configMap = new Map(configs.map(constructor => [constructor, new constructor()]))
         const provider: Provider = {
             provide: ConfigService,
-            useFactory: () => new ConfigService(configMap)
+            useFactory: () => new ConfigService(config)
         }
 
         return {
@@ -22,21 +20,10 @@ export class ConfigModule {
     }
 
     static forFeature({ config }: ConfigModuleFeatureOptions) {
-        const configs = Array.isArray(config) ? config : [config]
-        const configMap = new Map(configs.map(constructor => [constructor, new constructor()]))
         const provider: Provider = {
             provide: ConfigService,
-            inject: [
-                { token: ConfigService, optional: true }
-            ],
-            useFactory: (configService?: ConfigService) => new ConfigService(
-                configService
-                    ? new Map([
-                        ...Array.from(configService.getConfigMap().entries()),
-                        ...Array.from(configMap.entries())
-                    ])
-                    : configMap
-            )
+            inject: [{ token: ConfigService, optional: true }],
+            useFactory: (parent?: ConfigService) => new ConfigService(config, { parent })
         }
 
         return {

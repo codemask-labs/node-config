@@ -1,23 +1,27 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export type ClassConstructor<TConstructor = any> = new (...args: Array<any>) => TConstructor
-export type ConfigMap = Map<ClassConstructor, any>
+import { ClassTransformOptions } from 'class-transformer'
+import { ValidatorOptions } from 'class-validator'
+import { ConfigService } from 'module/config.service'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Config<TConstructor = any> = new (...args: Array<any>) => TConstructor
+export type ConfigMap = Map<Config, InstanceType<Config>>
 
 export type ConfigModuleRootOptions = {
-    /**
-     * @description when set to `true` config (or configs) are registered globally
-     * @default true
-     */
     global?: boolean
-
-    /**
-     * @description config class constructor or array of config class constructors
-     */
-    config: ClassConstructor<any> | Array<ClassConstructor<any>>
+    config: Config | Array<Config>
 }
 
 export type ConfigModuleFeatureOptions = {
-    /**
-     * @description config class constructor or array of config class constructors
-     */
-    config: ClassConstructor<any> | Array<ClassConstructor<any>>
+    config: Config | Array<Config>
+}
+
+export type ConfigServiceOptions = {
+    parent?: ConfigService
+    transform?: ClassTransformOptions
+    validator?: ValidatorOptions
+}
+
+export type ConfigMapOptions = {
+    base?: ConfigMap
+    transform?: ClassTransformOptions
 }
