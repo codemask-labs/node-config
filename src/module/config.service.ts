@@ -11,6 +11,9 @@ export class ConfigService implements OnModuleInit {
     constructor(config: Config | Array<Config>, options: ConfigServiceOptions = {}) {
         const { parent, transform } = options
 
+        console.log('creating config service:', config, options)
+        console.log('parent:', typeof parent)
+
         this.options = options
         this.configMap = getConfigMap(config, {
             base: parent?.getConfigMap(),
@@ -21,7 +24,7 @@ export class ConfigService implements OnModuleInit {
     get<T>(config: Config<T>): T {
         if (!this.configMap.has(config)) {
             throw new Error(
-                `Config (${config}) is not found or has not been registered correctly using ConfigModule.forRoot() or ConfigModule.forFeature()`
+                `Config (${config.name}) is not found or has not been registered correctly using ConfigModule.forRoot() or ConfigModule.forFeature()`
             )
         }
 
@@ -29,6 +32,8 @@ export class ConfigService implements OnModuleInit {
     }
 
     getConfigMap() {
+        console.log('get config map:', this.configMap)
+
         return this.configMap
     }
 
@@ -37,16 +42,20 @@ export class ConfigService implements OnModuleInit {
     }
 
     async onModuleInit() {
-        // Q: Since the Map.entries() returns iterator, is it better idea to use a loop here?
-        // Probably, not, but else is not considered "hacky"?
-        // eslint-disable-next-line no-loops/no-loops
-        for (const entry of this.configMap.entries()) {
-            const [token, config] = entry
-            const validationErrors = await validate(config, this.options.validator)
+        const validators = await Promise.allSettled(
+            [...this.configMap.values()].map(async config => {
+                const validationErrors = await validate(config, this.options.validator)
 
-            if (validationErrors.length) {
-                throw new Error(`${token}: ${validationErrors.map(error => error.toString())}`)
-            }
+                if (validationErrors.length) {
+                    throw new Error(validationErrors.map(error => error.toString()).join('\r'))
+                }
+            })
+        )
+
+        const errors = validators.map(validator => validator.status === 'rejected' ? validator.reason as Error : null).filter(Boolean) as Array<Error>
+
+        if (errors.length) {
+            throw new Error(`ConfigService failed to validate config:\r${errors.join('\r')}`)
         }
     }
 }
