@@ -4,7 +4,7 @@
   "repository": "https://github.com/codemaskinc/nestjs-config",
   "license": "MIT",
   "version": "1.0.0",
-  "description": "Nestjs Elasticsearch Module",
+  "description": "Nestjs Config Module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "commonjs",
