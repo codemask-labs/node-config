@@ -46,3 +46,4 @@ yarn-error.log
 
 # Project development
 dist
+.env

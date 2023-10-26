@@ -1,10 +1,10 @@
 import { validate } from 'class-validator'
-import { Injectable } from '@nestjs/common'
+import { Injectable, OnModuleInit } from '@nestjs/common'
 import { Config, ConfigMap, ConfigServiceOptions } from './types'
 import { createConfigMap } from './utils'
 
 @Injectable()
-export class ConfigService {
+export class ConfigService implements OnModuleInit {
     private readonly options: ConfigServiceOptions
     private readonly configMap: ConfigMap
 
@@ -16,6 +16,8 @@ export class ConfigService {
             base: parent?.configMap,
             transform
         })
+
+        console.log(this.configMap)
     }
 
     get<T>(config: Config<T>): T {

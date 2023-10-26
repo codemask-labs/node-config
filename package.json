@@ -21,6 +21,8 @@
     "node_modules/"
   ],
   "scripts": {
+    "start:dev": "nest start -w",
+    "build:example": "yarn rimraf dist && nest build",
     "test": "yarn jest --config=jest.config.json --pathPattern=src",
     "build:package": "yarn tsc --declaration --project tsconfig.build.json",
     "build:replace-tspaths": "yarn tscpaths -p tsconfig.build.json -s ./src -o ./dist",
@@ -39,10 +41,12 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "18.1.0",
+    "@nestjs/cli": "10.2.0",
     "@nestjs/common": "10.2.7",
     "@nestjs/core": "10.2.7",
     "@nestjs/platform-express": "10.2.7",
     "@nestjs/testing": "10.2.7",
+    "@nestjs/typeorm": "10.0.0",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/commit-analyzer": "11.0.0",
     "@semantic-release/exec": "6.0.3",
@@ -84,6 +88,7 @@
     "tsconfig-paths": "4.2.0",
     "tscpaths": "0.0.9",
     "tslint": "6.1.3",
+    "typeorm": "0.3.17",
     "typescript": "5.2.2"
   },
   "publishConfig": {

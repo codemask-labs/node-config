@@ -1,4 +1,5 @@
-import { pickAll } from 'ramda'
+import { mergeAll, pickAll } from 'ramda'
+import { config as dotenv } from 'dotenv'
 import { ClassTransformOptions, plainToInstance } from 'class-transformer'
 import { Config, ConfigMap, ConfigMapOptions } from './types'
 
@@ -6,7 +7,8 @@ const transformConfigEntry = <T>(config: Config<T>, options?: ClassTransformOpti
     const instance = new config()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const keys = Object.keys(instance as Record<string, any>)
-    const env = pickAll(keys, process.env)
+    const { parsed } = dotenv()
+    const env = pickAll(keys, mergeAll([{}, process.env, parsed]))
 
     return plainToInstance(config, env, {
         enableImplicitConversion: true,
