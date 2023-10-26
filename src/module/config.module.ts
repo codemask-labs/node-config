@@ -47,7 +47,7 @@ export class ConfigModule {
         return [
             {
                 provide: configMapToken,
-                useFactory: (parent?: ConfigService) => new ConfigService(config, { parent: parent }),
+                useFactory: (parent?: ConfigService) => new ConfigService(config, { parent }),
                 inject: [
                     {
                         optional: true,
