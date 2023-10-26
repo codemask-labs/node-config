@@ -524,10 +524,10 @@ __metadata:
     "@swc/jest": "npm:0.2.29"
     "@types/jest": "npm:29.5.6"
     "@types/node": "npm:20.8.9"
-    "@types/pg": "npm:^8"
+    "@types/pg": "npm:8.10.7"
     "@types/ramda": "npm:0.29.7"
     "@types/supertest": "npm:2.0.15"
-    "@types/uuid": "npm:^9"
+    "@types/uuid": "npm:9.0.6"
     "@typescript-eslint/eslint-plugin": "npm:6.9.0"
     "@typescript-eslint/eslint-plugin-tslint": "npm:6.9.0"
     "@typescript-eslint/parser": "npm:6.9.0"
@@ -562,6 +562,10 @@ __metadata:
     typeorm: "npm:0.3.17"
     typescript: "npm:5.2.2"
     uuid: "npm:9.0.1"
+  peerDependencies:
+    "@nestjs/common": ">= 9.0.0"
+    class-transformer: ">= 0.5.0"
+    class-validator: ">= 0.14.0"
   languageName: unknown
   linkType: soft
 
@@ -2142,7 +2146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pg@npm:^8":
+"@types/pg@npm:8.10.7":
   version: 8.10.7
   resolution: "@types/pg@npm:8.10.7"
   dependencies:
@@ -2195,7 +2199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^9":
+"@types/uuid@npm:9.0.6":
   version: 9.0.6
   resolution: "@types/uuid@npm:9.0.6"
   checksum: 8fb6b3a583a035b8e917192eeadaadadfbfd29315094aafd3478e11f11a986cb118ee0f388b15035fda063d9f1a32fa62e7a791215b762fe1e2c177929ca7146
