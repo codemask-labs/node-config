@@ -2,7 +2,7 @@
 
 ## How to Install
 
-### Installing peer dependencies
+### Required peer dependencies
 
 > [!NOTE]
 > If your project already uses @nestjs/common, class-validator and/or class-transformer - then skip installing mentioned peer dependencies.
@@ -11,7 +11,7 @@
 $ yarn add @nestjs/common class-validator class-transformer
 ```
 
-### Installing Package
+### Adding package to your project
 ```bash
 $ yarn add @codemaskjs/nestjs-config
 ```
