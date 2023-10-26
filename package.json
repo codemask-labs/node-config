@@ -31,9 +31,8 @@
   },
   "keywords": [
     "nestjs",
-    "typescript",
     "typesafe",
-    "nestjs-elasticsearch"
+    "config"
   ],
   "dependencies": {
     "ramda": "0.29.1"
