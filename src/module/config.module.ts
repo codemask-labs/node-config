@@ -1,9 +1,13 @@
-import { DynamicModule, Module, Provider } from '@nestjs/common'
-import { ConfigModuleRootOptions, ConfigModuleFeatureOptions } from 'lib/types'
+import { DynamicModule, Module, OptionalFactoryDependency, Provider } from '@nestjs/common'
+import { ConfigModuleRootOptions, ConfigModuleFeatureOptions } from './types'
 import { ConfigService } from './config.service'
 
 @Module({})
 export class ConfigModule {
+    constructor() {
+        console.log('constructing config module')
+    }
+
     static forRoot(options: ConfigModuleRootOptions): DynamicModule {
         const { global, config } = options
         const provider: Provider = {
@@ -15,21 +19,25 @@ export class ConfigModule {
             global: global ?? true,
             module: ConfigModule,
             providers: [provider],
-            exports: [ConfigService]
+            exports: [provider]
         }
     }
 
     static forFeature({ config }: ConfigModuleFeatureOptions) {
+        const parent: OptionalFactoryDependency = {
+            token: ConfigService,
+            optional: true
+        }
         const provider: Provider = {
             provide: ConfigService,
-            inject: [{ token: ConfigService, optional: true }],
-            useFactory: (parent?: ConfigService) => new ConfigService(config, { parent })
+            useFactory: (parent?: ConfigService) => new ConfigService(config, { parent }),
+            inject: [parent]
         }
 
         return {
             module: ConfigModule,
             providers: [provider],
-            exports: [ConfigService]
+            exports: [provider]
         }
     }
 }

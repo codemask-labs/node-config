@@ -1,7 +1,7 @@
 import { validate } from 'class-validator'
 import { Injectable, OnModuleInit } from '@nestjs/common'
-import { Config, ConfigMap, ConfigServiceOptions } from 'lib/types'
-import { getConfigMap } from 'lib/utils'
+import { Config, ConfigMap, ConfigServiceOptions } from './types'
+import { getConfigMap } from './utils'
 
 @Injectable()
 export class ConfigService implements OnModuleInit {
@@ -10,9 +10,6 @@ export class ConfigService implements OnModuleInit {
 
     constructor(config: Config | Array<Config>, options: ConfigServiceOptions = {}) {
         const { parent, transform } = options
-
-        console.log('creating config service:', config, options)
-        console.log('parent:', typeof parent)
 
         this.options = options
         this.configMap = getConfigMap(config, {
@@ -32,7 +29,7 @@ export class ConfigService implements OnModuleInit {
     }
 
     getConfigMap() {
-        console.log('get config map:', this.configMap)
+        console.log('getting config map')
 
         return this.configMap
     }
