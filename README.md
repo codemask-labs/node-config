@@ -63,7 +63,7 @@ export class HttpConfig {
 
 ### Using `forRoot`
 
-The `ConfigModule.forRoot(options)` required `config` as an option to globally register `Config Class` or array of `Config Classes` (optioned, and true by default) - for use within Nestjs injection on runtime. The `Config Class` is then shared across other modules and treated as a base for scoped `forFeature` (you can read more about `forFeature` below).
+The `ConfigModule.forRoot(options)` requires `config` as an option to globally register `Config Class` or array of `Config Classes` (optioned, and true by default) - for use within Nestjs injection on runtime. The `Config Class` is then shared across other modules and treated as a base for scoped `forFeature` (you can read more about `forFeature` below).
 
 ```typescript
 ConfigModule.forRoot({
