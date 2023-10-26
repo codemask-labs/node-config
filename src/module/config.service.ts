@@ -1,10 +1,10 @@
 import { validate } from 'class-validator'
-import { Injectable, OnModuleInit } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { Config, ConfigMap, ConfigServiceOptions } from './types'
-import { getConfigMap } from './utils'
+import { createConfigMap } from './utils'
 
 @Injectable()
-export class ConfigService implements OnModuleInit {
+export class ConfigService {
     private readonly options: ConfigServiceOptions
     private readonly configMap: ConfigMap
 
@@ -12,8 +12,8 @@ export class ConfigService implements OnModuleInit {
         const { parent, transform } = options
 
         this.options = options
-        this.configMap = getConfigMap(config, {
-            base: parent?.getConfigMap(),
+        this.configMap = createConfigMap(config, {
+            base: parent?.configMap,
             transform
         })
     }
@@ -28,16 +28,6 @@ export class ConfigService implements OnModuleInit {
         return this.configMap.get(config)
     }
 
-    getConfigMap() {
-        console.log('getting config map')
-
-        return this.configMap
-    }
-
-    getOptions() {
-        return this.options
-    }
-
     async onModuleInit() {
         const validators = await Promise.allSettled(
             [...this.configMap.values()].map(async config => {
@@ -49,7 +39,9 @@ export class ConfigService implements OnModuleInit {
             })
         )
 
-        const errors = validators.map(validator => validator.status === 'rejected' ? validator.reason as Error : null).filter(Boolean) as Array<Error>
+        const errors = validators
+            .map(validator => (validator.status === 'rejected' ? (validator.reason as Error) : null))
+            .filter(Boolean) as Array<Error>
 
         if (errors.length) {
             throw new Error(`ConfigService failed to validate config:\r${errors.join('\r')}`)

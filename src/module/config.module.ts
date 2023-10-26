@@ -1,43 +1,58 @@
-import { DynamicModule, Module, OptionalFactoryDependency, Provider } from '@nestjs/common'
+import { DynamicModule, Module, Provider } from '@nestjs/common'
 import { ConfigModuleRootOptions, ConfigModuleFeatureOptions } from './types'
 import { ConfigService } from './config.service'
+import { GLOBAL_CONFIG_SERVICE_TOKEN } from './constants'
 
 @Module({})
 export class ConfigModule {
-    constructor() {
-        console.log('constructing config module')
-    }
-
-    static forRoot(options: ConfigModuleRootOptions): DynamicModule {
-        const { global, config } = options
-        const provider: Provider = {
-            provide: ConfigService,
-            useFactory: () => new ConfigService(config)
-        }
+    static forRoot({ global, ...options }: ConfigModuleRootOptions): DynamicModule {
+        const providers = this.createConfigProvidersForRoot(options)
 
         return {
             global: global ?? true,
             module: ConfigModule,
-            providers: [provider],
-            exports: [provider]
+            providers,
+            exports: providers
         }
     }
 
-    static forFeature({ config }: ConfigModuleFeatureOptions) {
-        const parent: OptionalFactoryDependency = {
-            token: ConfigService,
-            optional: true
-        }
-        const provider: Provider = {
-            provide: ConfigService,
-            useFactory: (parent?: ConfigService) => new ConfigService(config, { parent }),
-            inject: [parent]
-        }
+    static forFeature(options: ConfigModuleFeatureOptions) {
+        const providers = this.createConfigProvidersForFeature(options)
 
         return {
             module: ConfigModule,
-            providers: [provider],
-            exports: [provider]
+            providers,
+            exports: providers
         }
+    }
+
+    private static createConfigProvidersForRoot({ config }: ConfigModuleRootOptions): Array<Provider> {
+        const service = new ConfigService(config)
+
+        return [
+            {
+                provide: GLOBAL_CONFIG_SERVICE_TOKEN,
+                useValue: service
+            },
+            {
+                provide: ConfigService,
+                useValue: service
+            }
+        ]
+    }
+
+    private static createConfigProvidersForFeature({ config }: ConfigModuleFeatureOptions): Array<Provider> {
+        return [
+            {
+                provide: ConfigService,
+                useFactory: (parent?: ConfigService) => new ConfigService(config, { parent }),
+                inject: [
+                    {
+                        optional: true,
+                        token: GLOBAL_CONFIG_SERVICE_TOKEN
+                    }
+                ]
+            }
+        ]
     }
 }

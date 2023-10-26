@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { Injectable, Module } from '@nestjs/common'
-import { IsEnum, IsNumber } from 'class-validator'
+import { IsEnum, IsNumber, IsString } from 'class-validator'
 import { ConfigModule, ConfigService } from '.'
 
 export enum NodeEnv {
@@ -12,12 +12,12 @@ export class ConfigMock {
     readonly NODE_ENV: NodeEnv
 }
 
-export class InvalidServicePortConfigMock {
+export class ServicePortConfigMock {
     @IsNumber()
     readonly SERVICE_PORT: number
 }
 
-export class InvalidServiceHostConfigMock {
+export class ServiceHostConfigMock {
     @IsNumber()
     readonly SERVICE_HOST: number
 }
@@ -25,12 +25,17 @@ export class InvalidServiceHostConfigMock {
 export class OtherConfigMock {
     @IsEnum(NodeEnv)
     readonly NODE_ENV: NodeEnv
+
+    @IsString()
+    readonly HELLO_WORLD: string = 'foo'
 }
 
 @Injectable()
 export class InnerService {
     constructor(configService: ConfigService) {
-        console.log('inner service:', configService)
+        const config = configService.get(OtherConfigMock)
+
+        console.log(config)
     }
 }
 

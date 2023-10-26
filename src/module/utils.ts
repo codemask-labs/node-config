@@ -2,7 +2,7 @@ import { pickAll } from 'ramda'
 import { ClassTransformOptions, plainToInstance } from 'class-transformer'
 import { Config, ConfigMap, ConfigMapOptions } from './types'
 
-const getTransformedConfigEntry = <T>(config: Config<T>, options?: ClassTransformOptions): T => {
+const transformConfigEntry = <T>(config: Config<T>, options?: ClassTransformOptions): T => {
     const instance = new config()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const keys = Object.keys(instance as Record<string, any>)
@@ -15,15 +15,12 @@ const getTransformedConfigEntry = <T>(config: Config<T>, options?: ClassTransfor
     })
 }
 
-const getTransformedConfigEntries = (config: Config | Array<Config>, transform?: ClassTransformOptions): Array<[Config, InstanceType<Config>]> => {
-    const configs = Array.isArray(config) ? config : [config]
+const transformConfigEntries = (config: Config | Array<Config>, transformOptions?: ClassTransformOptions): Array<[Config, InstanceType<Config>]> =>
+    (Array.isArray(config) ? config : [config]).map(constructor => [constructor, transformConfigEntry(constructor, transformOptions)])
 
-    return configs.map(constructor => [constructor, getTransformedConfigEntry(constructor, transform)])
-}
-
-export const getConfigMap = (config: Config | Array<Config>, options: ConfigMapOptions = {}): ConfigMap => {
+export const createConfigMap = (config: Config | Array<Config>, options: ConfigMapOptions = {}): ConfigMap => {
     const { base, transform } = options
-    const entries = getTransformedConfigEntries(config, transform)
+    const entries = transformConfigEntries(config, transform)
 
     if (base) {
         const configsWithBase = [...base.entries(), ...entries]
