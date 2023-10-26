@@ -5,7 +5,7 @@ import { ConfigModule } from 'module/config.module'
 @Module({
     imports: [
         ConfigModule.forFeature({
-            config: [MailerConfig]
+            config: MailerConfig
         })
     ]
 })

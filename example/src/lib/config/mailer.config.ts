@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsString } from 'class-validator'
+import { IsBase64, IsBoolean, IsInt, IsString } from 'class-validator'
 
 export class MailerConfig {
     @IsString()
@@ -18,4 +18,7 @@ export class MailerConfig {
 
     @IsString()
     readonly MAILER_AUTH_PASSWORD: string
+
+    @IsBase64()
+    readonly EXPECTED_NOT_A_STRING: string
 }
