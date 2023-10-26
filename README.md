@@ -40,7 +40,7 @@ export class MailerModule {}
 
 1. Config Class
 
-The `ConfigModule` allows to register classes only, that are being populated during runtime using `process.env` and `dotenv` variables.
+The `ConfigModule` allows to register classes only and are being mapped during runtime with `process.env` and `dotenv` variables.
 
 > [!NOTE]
 > Config classes supports `class-transformer` and `class-validator` decorators internally, allowing to shape configs to your needs.
