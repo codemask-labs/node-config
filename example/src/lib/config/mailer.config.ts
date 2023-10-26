@@ -20,5 +20,5 @@ export class MailerConfig {
     readonly MAILER_AUTH_PASSWORD: string
 
     @IsBase64()
-    readonly EXPECTED_NOT_A_STRING: string
+    readonly EXPECTED_A_BASE64_BUT_IT_WILL_BE_EMPTY: string
 }
