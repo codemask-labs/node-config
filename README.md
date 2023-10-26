@@ -158,7 +158,7 @@ export class DatabaseModule {}
 
 3. Config Service
 
-The `ConfigService` is a injectable service for reading accessing config classes within respectable scope.
+The `ConfigService` is a injectable service for accessing config classes within respectable scope.
 
 ```typescript
 import { Injectable } from '@nestjs/common'
