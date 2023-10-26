@@ -7,7 +7,7 @@ export class ConfigService {
     private readonly configMap: ConfigMap
 
     constructor(config: Config | Array<Config>, options: ConfigServiceOptions = {}) {
-        const { parentConfigMap: parent, transform } = options
+        const { parent: parent, transform } = options
 
         this.options = options
         this.configMap = createConfigMap(config, {

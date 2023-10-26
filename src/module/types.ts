@@ -16,7 +16,7 @@ export type ConfigModuleFeatureOptions = {
 }
 
 export type ConfigServiceOptions = {
-    parentConfigMap?: ConfigService
+    parent?: ConfigService
     transform?: ClassTransformOptions
     validator?: ValidatorOptions
 }
