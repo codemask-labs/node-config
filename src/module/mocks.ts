@@ -18,7 +18,7 @@ export class ServicePortConfigMock {
 }
 
 export class ServiceHostConfigMock {
-    @IsNumber()
+    @IsString()
     readonly SERVICE_HOST: number
 }
 
@@ -32,10 +32,16 @@ export class OtherConfigMock {
 
 @Injectable()
 export class InnerService {
-    constructor(configService: ConfigService) {
-        const config = configService.get(OtherConfigMock)
+    private readonly config: OtherConfigMock
 
-        console.log(config)
+    constructor(configService: ConfigService) {
+        this.config = configService.get(OtherConfigMock)
+    }
+
+    throwErrorIfNotInTest() {
+        if (this.config.NODE_ENV !== NodeEnv.Test) {
+            throw new Error('Undefined Behaviour')
+        }
     }
 }
 
@@ -48,3 +54,13 @@ export class InnerService {
     providers: [InnerService]
 })
 export class InnerModule {}
+
+@Module({
+    imports: [
+        ConfigModule.forFeature({
+            config: [OtherConfigMock, ServiceHostConfigMock, ServicePortConfigMock]
+        })
+    ],
+    providers: [InnerService]
+})
+export class AllModule {}
