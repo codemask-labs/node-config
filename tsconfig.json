@@ -17,7 +17,7 @@
     "baseUrl": ".",
     "rootDirs": ["./example", "./src"],
     "paths": {
-      "lib/*": ["./example/src/lib/*"],
+      "lib/*": ["./example/lib/*"],
       "module/*": ["./src/module/*"],
       "test/*": ["./src/test/*"]
     }
