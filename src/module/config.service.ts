@@ -1,15 +1,13 @@
-import { validate } from 'class-validator'
-import { Injectable, OnModuleInit } from '@nestjs/common'
+import { validateSync } from 'class-validator'
 import { Config, ConfigMap, ConfigServiceOptions } from './types'
 import { createConfigMap } from './utils'
 
-@Injectable()
-export class ConfigService implements OnModuleInit {
+export class ConfigService {
     private readonly options: ConfigServiceOptions
     private readonly configMap: ConfigMap
 
     constructor(config: Config | Array<Config>, options: ConfigServiceOptions = {}) {
-        const { parent, transform } = options
+        const { parentConfigMap: parent, transform } = options
 
         this.options = options
         this.configMap = createConfigMap(config, {
@@ -17,7 +15,7 @@ export class ConfigService implements OnModuleInit {
             transform
         })
 
-        console.log(this.configMap)
+        this.runConfigValidations()
     }
 
     get<T>(config: Config<T>): T {
@@ -30,23 +28,20 @@ export class ConfigService implements OnModuleInit {
         return this.configMap.get(config)
     }
 
-    async onModuleInit() {
-        const validators = await Promise.allSettled(
-            [...this.configMap.values()].map(async config => {
-                const validationErrors = await validate(config, this.options.validator)
+    private runConfigValidations() {
+        const configs = [...this.configMap.values()]
+        const validationErrors = configs.reduce<Array<Error>>((errors, config) => {
+            const validationErrors = validateSync(config, this.options.validator)
 
-                if (validationErrors.length) {
-                    throw new Error(validationErrors.map(error => error.toString()).join('\r'))
-                }
-            })
-        )
+            if (!validationErrors.length) {
+                return errors
+            }
 
-        const errors = validators
-            .map(validator => (validator.status === 'rejected' ? (validator.reason as Error) : null))
-            .filter(Boolean) as Array<Error>
+            return [...errors, new Error(validationErrors.map(error => error.toString()).join('\r'))]
+        }, [])
 
-        if (errors.length) {
-            throw new Error(`ConfigService failed to validate config:\r${errors.join('\r')}`)
+        if (validationErrors.length) {
+            throw new Error(`ConfigService failed to validate config:\r${validationErrors.join('\r')}`)
         }
     }
 }

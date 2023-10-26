@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common'
 import { HttpConfig, NodeConfig } from 'lib/config'
 import { ConfigModule } from 'module/config.module'
-import { UsersModule } from '../users/users.module'
+import { UsersModule } from '../users'
+import { MailerModule } from '../mailer'
 
 @Module({
     imports: [
@@ -11,6 +12,7 @@ import { UsersModule } from '../users/users.module'
                 HttpConfig
             ]
         }),
+        MailerModule,
         UsersModule
     ]
 })

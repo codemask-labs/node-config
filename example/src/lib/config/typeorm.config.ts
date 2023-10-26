@@ -1,4 +1,4 @@
-import { IsBooleanString, IsEnum, IsInt, IsString } from 'class-validator'
+import { IsBoolean, IsEnum, IsInt, IsString } from 'class-validator'
 import { TypeormConnection } from 'lib/enums'
 
 export class TypeormConfig {
@@ -20,6 +20,6 @@ export class TypeormConfig {
     @IsString()
     readonly TYPEORM_PASSWORD: string
 
-    @IsBooleanString()
+    @IsBoolean()
     readonly TYPEORM_LOGGING: boolean
 }

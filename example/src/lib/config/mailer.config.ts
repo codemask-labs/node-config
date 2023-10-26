@@ -1,4 +1,4 @@
-import { IsBooleanString, IsInt, IsString } from 'class-validator'
+import { IsBoolean, IsInt, IsString } from 'class-validator'
 
 export class MailerConfig {
     @IsString()
@@ -10,7 +10,7 @@ export class MailerConfig {
     @IsString()
     readonly MAILER_FROM: string
 
-    @IsBooleanString()
+    @IsBoolean()
     readonly MAILER_SECURE: boolean
 
     @IsString()

@@ -1,1 +1,1 @@
-export const GLOBAL_CONFIG_SERVICE_TOKEN = Symbol('GlobalConfigService')
+export const GLOBAL_CONFIG_SERVICE_TOKEN = Symbol('GLOBAL_CONFIG_SERVICE')
