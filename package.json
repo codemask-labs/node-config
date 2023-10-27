@@ -23,12 +23,12 @@
   "scripts": {
     "start:dev": "nest start -w",
     "build:example": "yarn rimraf dist && nest build",
-    "test": "yarn jest --config=jest.config.json --pathPattern=src",
+    "test": "yarn jest --config=jest.config.json --pathPattern=lib",
     "build:package": "yarn tsc --declaration --project tsconfig.build.json",
-    "build:replace-tspaths": "yarn tscpaths -p tsconfig.build.json -s ./src -o ./dist",
+    "build:replace-tspaths": "yarn tscpaths -p tsconfig.build.json -s ./lib -o ./dist",
     "build": "yarn rimraf dist && yarn build:package && yarn build:replace-tspaths",
-    "lint": "yarn eslint --ext .ts src",
-    "format": "yarn prettier -w src && yarn lint --fix",
+    "lint": "yarn eslint --ext .ts lib",
+    "format": "yarn prettier -w lib && yarn lint --fix",
     "update": "yarn upgrade-interactive"
   },
   "keywords": [

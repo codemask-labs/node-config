@@ -1,4 +1,4 @@
-import { setupNestApplication } from 'test/toolkit'
+import { setupNestApplication } from 'lib/test'
 import { ConfigMock, InnerModule, NodeEnv } from './mocks'
 import { ConfigService } from './config.service'
 import { ConfigModule } from './config.module'

@@ -1,5 +1,5 @@
 import { createConfigMap } from './utils'
-import { ConfigMock, NodeEnv, OtherConfigMock } from 'module/mocks'
+import { ConfigMock, NodeEnv, OtherConfigMock } from 'lib/module/mocks'
 
 describe('Utils', () => {
     it('createConfigMap returns a one mapped entry from config', () => {

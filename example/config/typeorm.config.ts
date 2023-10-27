@@ -1,5 +1,5 @@
 import { IsBoolean, IsEnum, IsInt, IsString } from 'class-validator'
-import { TypeormConnection } from 'lib/enums'
+import { TypeormConnection } from 'example/enums'
 
 export class TypeormConfig {
     @IsEnum(TypeormConnection)

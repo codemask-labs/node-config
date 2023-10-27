@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { HttpConfig, NodeConfig } from 'lib/config'
-import { ConfigModule } from 'module/config.module'
+import { ConfigModule } from 'lib/module'
+import { HttpConfig, NodeConfig } from 'example/config'
 import { UsersModule } from '../users'
 import { MailerModule } from '../mailer'
 

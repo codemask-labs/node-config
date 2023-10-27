@@ -1,6 +1,6 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common'
-import { MailerConfig } from 'lib/config'
-import { ConfigService } from 'src'
+import { ConfigService } from 'lib/module'
+import { MailerConfig } from 'example/config'
 
 @Injectable()
 export class MailerService implements OnApplicationBootstrap {

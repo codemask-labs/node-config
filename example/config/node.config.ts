@@ -1,5 +1,5 @@
 import { IsEnum } from 'class-validator'
-import { NodeEnv } from 'lib/enums'
+import { NodeEnv } from 'example/enums'
 
 export class NodeConfig {
     @IsEnum(NodeEnv)
