@@ -20,7 +20,7 @@ $ yarn add @codemaskjs/nestjs-config
 
 ### Configuring ConfigModule for root
 
-For adding globally available configs, use the example from below:
+For providing globally available configs, use the example from below:
 
 ```typescript
 import { Module } from '@nestjs/common'
@@ -29,7 +29,7 @@ import { ConfigModule } from '@codemaskjs/nestjs-config'
 @Module({
     imports: [
         ConfigModule.forFeature({
-            config: <your config class>
+            provides: <your config class>
         })
     ]
 })
@@ -63,24 +63,24 @@ export class HttpConfig {
 
 ### Using `forRoot`
 
-The `ConfigModule.forRoot(options)` requires `config` as an option to globally register `Config Class` or array of `Config Classes` (optioned, and true by default) - for use within Nestjs injection on runtime. The `Config Class` is then shared across other modules and treated as a base for scoped `forFeature` (you can read more about `forFeature` below).
+The `ConfigModule.forRoot(options)` requires `provides` as an option to globally register `Config Class` or array of `Config Classes` (optioned, and true by default) - for use within Nestjs injection on runtime. The `Config Class` is then shared across other modules and treated as a base for scoped `forFeature` (you can read more about `forFeature` below).
 
 ```typescript
 ConfigModule.forRoot({
-    config: HttpConfig // or [HttpConfig, OtherConfig, ...]
+    provides: [HttpConfig]
 })
 ```
 
 ### Using `forFeature`
 
-The `ConfigModule.forFeature(options)` requires `config` as an option to extend the `base for root configurations` and provides isolated config accessible with `ConfigService.get(<Class>)`.
+The `ConfigModule.forFeature(options)` requires `provides` as an option to extend the `base for root configurations` and provides isolated config accessible with `ConfigService.get(<Class>)`.
 
 > [!NOTE]
 > Registered configurations with `for feature` are only available within the import scope of your module.
 
 ```typescript
 ConfigModule.forFeature({
-    config: ScopedDatabaseConfig // or [ScopedDatabaseConfig, ExampleConfig, ...]
+    provides: [ScopedDatabaseConfig] // or [ScopedDatabaseConfig, ExampleConfig, ...]
 })
 ```
 
@@ -128,7 +128,7 @@ import { TypeOrmConfig } from 'lib/config'
         TypeOrmModule.forRootAsync({
             imports: [
                 ConfigModule.forFeature({
-                    config: TypeOrmConfig
+                    provides: [TypeOrmConfig]
                 })
             ],
             inject: [ConfigService],
@@ -167,9 +167,8 @@ import { ConfigService } from '@codemaskjs/nestjs-config'
 @Injectable()
 export class MyService {
     constructor(private readonly configService: ConfigService) {
-        this.configService.get(HttpConfig)
-        // or, if `for feature` has additionally provided `ExampleConfig` within this service module, then we can as well use the following:
-        this.configService.get(ExampleConfig)
+        this.configService.get(HttpConfig) // <-- available from global config map
+        this.configService.get(ExampleConfig) // <-- available from local config map
     }
 }
 
