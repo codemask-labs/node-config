@@ -8,7 +8,7 @@ import { TypeormConfig } from 'example/config'
         TypeOrmModule.forRootAsync({
             imports: [
                 ConfigModule.forFeature({
-                    config: TypeormConfig
+                    provides: [TypeormConfig]
                 })
             ],
             inject: [ConfigService],

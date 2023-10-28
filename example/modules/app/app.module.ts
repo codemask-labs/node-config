@@ -7,7 +7,7 @@ import { MailerModule } from '../mailer'
 @Module({
     imports: [
         ConfigModule.forRoot({
-            config: [
+            provides: [
                 NodeConfig,
                 HttpConfig
             ]

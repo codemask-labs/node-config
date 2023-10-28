@@ -48,7 +48,7 @@ export class InnerService {
 @Module({
     imports: [
         ConfigModule.forFeature({
-            config: OtherConfigMock
+            provides: [OtherConfigMock]
         })
     ],
     providers: [InnerService]
@@ -58,7 +58,7 @@ export class InnerModule {}
 @Module({
     imports: [
         ConfigModule.forFeature({
-            config: [OtherConfigMock, ServiceHostConfigMock, ServicePortConfigMock]
+            provides: [OtherConfigMock, ServiceHostConfigMock, ServicePortConfigMock]
         })
     ],
     providers: [InnerService]

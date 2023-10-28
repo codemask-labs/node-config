@@ -7,7 +7,7 @@ import { MailerService } from './mailer.service'
     providers: [MailerService],
     imports: [
         ConfigModule.forFeature({
-            config: MailerConfig
+            provides: [MailerConfig]
         })
     ]
 })

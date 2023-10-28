@@ -3,25 +3,39 @@ import { ValidatorOptions } from 'class-validator'
 import { ConfigService } from './config.service'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Config<TConstructor = any> = new (...args: Array<any>) => TConstructor
-export type ConfigMap = Map<Config, InstanceType<Config>>
+export type Class<TConstructor = any> = new (...args: Array<any>) => TConstructor
 
-export type ConfigModuleRootOptions = {
+export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never
+
+export type Provides<TProvides extends Array<Class>> = [...TProvides]
+
+export type Overrides<TProvides extends Array<Class>> = TProvides extends [a: Class<infer A>, ...rest: infer R]
+    ? R extends Array<Class>
+        ? { [Key in keyof A]: A[Key] } & Overrides<R>
+        : never
+    : object
+
+export type ConfigMap = Map<Class, InstanceType<Class>>
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ConfigModuleRootOptions<TProvides extends Array<Class>> = {
+    provides: Provides<TProvides>
     global?: boolean
-    config: Config | Array<Config>
+    overrides?: Expand<Overrides<TProvides>>
+    transformOptions?: ClassTransformOptions
+    validatorOptions?: ValidatorOptions
 }
 
 export type ConfigModuleFeatureOptions = {
-    config: Config | Array<Config>
+    provides: Array<Class>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    overrides?: Record<string, any>
 }
 
 export type ConfigServiceOptions = {
     parent?: ConfigService
-    transform?: ClassTransformOptions
-    validator?: ValidatorOptions
-}
-
-export type ConfigMapOptions = {
-    base?: ConfigMap
-    transform?: ClassTransformOptions
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    overrides?: Record<string, any>
+    transformOptions?: ClassTransformOptions
+    validatorOptions?: ValidatorOptions
 }

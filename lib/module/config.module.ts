@@ -1,12 +1,12 @@
 import { v4 } from 'uuid'
 import { Module, DynamicModule, FactoryProvider, ValueProvider } from '@nestjs/common'
-import { ConfigModuleRootOptions, ConfigModuleFeatureOptions } from './types'
+import { ConfigModuleRootOptions, ConfigModuleFeatureOptions, Class } from './types'
 import { ConfigService } from './config.service'
 import { GLOBAL_CONFIG_SERVICE_TOKEN } from './constants'
 
 @Module({})
 export class ConfigModule {
-    static forRoot({ global, ...options }: ConfigModuleRootOptions): DynamicModule {
+    static forRoot<TProvides extends Array<Class>>({ global, ...options }: ConfigModuleRootOptions<TProvides>): DynamicModule {
         const providers = this.createConfigProvidersForRoot(options)
 
         return {
@@ -27,11 +27,13 @@ export class ConfigModule {
         }
     }
 
-    private static createConfigProvidersForRoot({ config }: ConfigModuleRootOptions): Array<ValueProvider | FactoryProvider> {
+    private static createConfigProvidersForRoot<TProvides extends Array<Class>>({
+        provides
+    }: ConfigModuleRootOptions<TProvides>): Array<ValueProvider | FactoryProvider> {
         return [
             {
                 provide: GLOBAL_CONFIG_SERVICE_TOKEN,
-                useValue: new ConfigService(config)
+                useValue: new ConfigService(provides)
             },
             {
                 provide: ConfigService,
@@ -41,7 +43,7 @@ export class ConfigModule {
         ]
     }
 
-    private static createConfigProvidersForFeature({ config }: ConfigModuleFeatureOptions): Array<ValueProvider | FactoryProvider> {
+    private static createConfigProvidersForFeature({ provides: config }: ConfigModuleFeatureOptions): Array<ValueProvider | FactoryProvider> {
         const configMapToken = v4()
 
         return [

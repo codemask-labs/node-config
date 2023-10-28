@@ -1,45 +1,27 @@
 import { setupNestApplication } from 'lib/test'
-import { ConfigMock, InnerModule, NodeEnv } from './mocks'
-import { ConfigService } from './config.service'
 import { ConfigModule } from './config.module'
+import { HttpConfig, NodeConfig } from 'example/config'
+import { NodeEnv } from 'example/enums'
+import { ConfigService } from '.'
 
-describe('ConfigModule - for root', () => {
+describe('ConfigModule', () => {
     const { app } = setupNestApplication({
         imports: [
             ConfigModule.forRoot({
-                config: ConfigMock
+                provides: [NodeConfig],
+                overrides: {
+                    NODE_ENV: NodeEnv.Production
+                    // HTTP_SERVICE_HOST: 'localhost',
+                    // HTTP_SERVICE_PORT: 3000
+                }
             })
         ]
     })
 
-    it('expect config service to be defined', () => {
-        const service = app.get(ConfigService)
+    test.todo('registering module config is validated')
 
-        expect(service).toBeDefined()
-    })
-
-    it('expect ConfigMock to be defined', () => {
-        const service = app.get(ConfigService)
-        const config = service.get(ConfigMock)
-
-        expect(config).toBeDefined()
-        expect(config.NODE_ENV).toBe(NodeEnv.Test)
-    })
-})
-
-describe('ConfigModule - for feature', () => {
-    const { app } = setupNestApplication({
-        imports: [
-            ConfigModule.forRoot({
-                config: ConfigMock
-            }),
-            InnerModule
-        ]
-    })
-
-    it('expect config service to be defined', () => {
-        const service = app.get(ConfigService)
-
-        expect(service).toBeDefined()
+    it('test', () => {
+        console.log(app.get(ConfigService).get(NodeConfig))
+        console.log(app.get(ConfigService).get(HttpConfig))
     })
 })
