@@ -36,7 +36,7 @@ jobs:
         run: npm audit signatures
 
       - name: Adding Release dependencies
-        run: yarn add release-it @release-it/conventional-changelog
+        run: yarn add release-it release-it-yarn-workspaces @release-it/conventional-changelog
 
       - name: Running Release
         run: yarn release-it --ci
