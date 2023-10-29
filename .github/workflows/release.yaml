@@ -30,13 +30,11 @@ jobs:
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
 
-      - name: Release dependencies
-        run: yarn dlx \
-          -p release-it@16.2.1 \
-          -p @release-it/conventional-changelog@7.0.2
-
       - name: Release
-        run: yarn release-it --ci
+        run: yarn dlx \
+          -p "release-it" \
+          -p "@release-it/conventional-changelog" \
+          release-it --ci
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
