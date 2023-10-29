@@ -28,7 +28,7 @@ import { ConfigModule } from '@codemaskjs/nestjs-config'
 
 @Module({
     imports: [
-        ConfigModule.forFeature({
+        ConfigModule.forRoot({
             provides: [<your config class>, ...]
         })
     ]
