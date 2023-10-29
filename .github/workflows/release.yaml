@@ -36,10 +36,10 @@ jobs:
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
 
-      - name: Add Dependencies
+      - name: Adding Release dependencies
         run: yarn add release-it @release-it/conventional-changelog
 
-      - name: Release
+      - name: Running Release
         run: yarn release-it --ci
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
