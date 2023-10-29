@@ -37,7 +37,7 @@ jobs:
         run: npm audit signatures
 
       - name: Add Dependencies
-        run: yarn add --immutable release-it @release-it/conventional-changelog
+        run: yarn add release-it @release-it/conventional-changelog
 
       - name: Release
         run: yarn release-it --ci
