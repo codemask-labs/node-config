@@ -9,6 +9,9 @@
     "publish": true
   },
   "plugins": {
+    "release-it-yarn-workspaces": {
+      "skipChecks": true
+    },
     "@release-it/conventional-changelog": {
       "infile": "CHANGELOG.md",
       "preset": {

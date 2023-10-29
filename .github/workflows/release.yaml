@@ -21,7 +21,6 @@ jobs:
       pull-requests: write
       id-token: write
     env:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       HUSKY: 0
     steps:
       - name: Checkout
@@ -38,9 +37,6 @@ jobs:
 
       - name: Adding Release dependencies
         run: yarn add release-it @release-it/conventional-changelog
-
-      - name: Logging to NPM
-        run: npm login --scope=@codemaskjs
 
       - name: Running Release
         run: yarn release-it --ci
