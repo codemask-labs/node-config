@@ -17,7 +17,7 @@ export class ConfigModule {
         }
     }
 
-    static forFeature(options: ConfigModuleFeatureOptions): DynamicModule {
+    static forFeature<TProvides extends Array<Class>>(options: ConfigModuleFeatureOptions<TProvides>): DynamicModule {
         const providers = this.createConfigProvidersForFeature(options)
 
         return {
@@ -28,12 +28,12 @@ export class ConfigModule {
     }
 
     private static createConfigProvidersForRoot<TProvides extends Array<Class>>({
-        provides
+        provides, ...options
     }: ConfigModuleRootOptions<TProvides>): Array<ValueProvider | FactoryProvider> {
         return [
             {
                 provide: GLOBAL_CONFIG_SERVICE_TOKEN,
-                useValue: new ConfigService(provides)
+                useValue: new ConfigService(provides, options)
             },
             {
                 provide: ConfigService,
@@ -43,7 +43,7 @@ export class ConfigModule {
         ]
     }
 
-    private static createConfigProvidersForFeature({ provides: config }: ConfigModuleFeatureOptions): Array<ValueProvider | FactoryProvider> {
+    private static createConfigProvidersForFeature<TProvides extends Array<Class>>({ provides: config }: ConfigModuleFeatureOptions<TProvides>): Array<ValueProvider | FactoryProvider> {
         const configMapToken = v4()
 
         return [

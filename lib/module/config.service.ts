@@ -18,18 +18,21 @@ export class ConfigService {
 
     get<T>(config: Class<T>): T {
         if (!this.configMap.has(config)) {
-            throw new ConfigServiceException(ConfigServiceError.CONFIG_NOT_FOUND)
+            throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${config.name}]`)
         }
 
         return this.configMap.get(config)
     }
 
     private getConfigEntry(config: Class) {
-        const { overrides: environmentVariables, transformOptions } = this.options
+        const { overrides, transformOptions } = this.options
         const { parsed } = dotenv()
+
+        console.log(overrides)
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const keys = Object.keys(new config() as Record<string, any>)
-        const env = pickAll(keys, environmentVariables || mergeAll([{}, process.env, parsed]))
+        const env = pickAll(keys, overrides || mergeAll([{}, process.env, parsed]))
 
         return plainToInstance(config, env, {
             enableImplicitConversion: true,

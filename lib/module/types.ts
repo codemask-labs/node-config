@@ -17,7 +17,6 @@ export type Overrides<TProvides extends Array<Class>> = TProvides extends [a: Cl
 
 export type ConfigMap = Map<Class, InstanceType<Class>>
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ConfigModuleRootOptions<TProvides extends Array<Class>> = {
     provides: Provides<TProvides>
     global?: boolean
@@ -26,10 +25,9 @@ export type ConfigModuleRootOptions<TProvides extends Array<Class>> = {
     validatorOptions?: ValidatorOptions
 }
 
-export type ConfigModuleFeatureOptions = {
+export type ConfigModuleFeatureOptions<TProvides extends Array<Class>> = {
     provides: Array<Class>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    overrides?: Record<string, any>
+    overrides?: Expand<Overrides<TProvides>>
 }
 
 export type ConfigServiceOptions = {

@@ -8,20 +8,21 @@ describe('ConfigModule', () => {
     const { app } = setupNestApplication({
         imports: [
             ConfigModule.forRoot({
-                provides: [NodeConfig],
+                provides: [HttpConfig, NodeConfig],
                 overrides: {
-                    NODE_ENV: NodeEnv.Production
-                    // HTTP_SERVICE_HOST: 'localhost',
-                    // HTTP_SERVICE_PORT: 3000
+                    NODE_ENV: NodeEnv.Production,
+                    HTTP_SERVICE_HOST: 'localhost',
+                    HTTP_SERVICE_PORT: 3000
                 }
             })
         ]
     })
 
-    test.todo('registering module config is validated')
+    it('registering module config is validated', () => {
+        const nodeConfig = app.get(ConfigService).get(NodeConfig)
+        const httpConfig = app.get(ConfigService).get(HttpConfig)
 
-    it('test', () => {
-        console.log(app.get(ConfigService).get(NodeConfig))
-        console.log(app.get(ConfigService).get(HttpConfig))
+        expect(nodeConfig).toEqual({ NODE_ENV: NodeEnv.Production })
+        expect(httpConfig).toEqual({ HTTP_SERVICE_HOST: 'localhost', HTTP_SERVICE_PORT: 3000 })
     })
 })
