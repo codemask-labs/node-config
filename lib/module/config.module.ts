@@ -45,14 +45,15 @@ export class ConfigModule {
     }
 
     private static createConfigProvidersForFeature<TProvides extends Array<Class>>({
-        provides: config
+        provides: config,
+        ...options
     }: ConfigModuleFeatureOptions<TProvides>): Array<FactoryProvider> {
         const configMapToken = v4()
 
         return [
             {
                 provide: configMapToken,
-                useFactory: (parent?: ConfigService) => new ConfigService(config, { parent }),
+                useFactory: (parent?: ConfigService) => new ConfigService(config, { parent, ...options }),
                 inject: [
                     {
                         optional: true,

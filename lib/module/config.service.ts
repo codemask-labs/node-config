@@ -28,8 +28,6 @@ export class ConfigService {
         const { overrides, transformOptions } = this.options
         const { parsed } = dotenv()
 
-        console.log(overrides)
-
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const keys = Object.keys(new config() as Record<string, any>)
         const env = pickAll(keys, overrides || mergeAll([{}, process.env, parsed]))
