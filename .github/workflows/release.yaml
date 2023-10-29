@@ -1,18 +1,13 @@
 name: Release
 on:
   workflow_dispatch:
-    inputs:
-      desc:
-        description: 'Description'
-        required: false
-        default: 'Manual release'
 
 permissions:
   contents: read # for checkout
 
 jobs:
   release:
-    name: Release
+    name: Release to NPM
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
