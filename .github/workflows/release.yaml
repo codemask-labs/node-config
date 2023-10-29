@@ -39,6 +39,9 @@ jobs:
       - name: Adding Release dependencies
         run: yarn add release-it @release-it/conventional-changelog
 
+      - name: Logging to NPM
+        run: npm login
+
       - name: Running Release
         run: yarn release-it --ci
         env:
