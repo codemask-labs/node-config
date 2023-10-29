@@ -1,4 +1,4 @@
-name: Release
+name: Release to NPM
 on:
   workflow_dispatch:
 
@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   release:
-    name: Release to NPM
+    name: Release
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -31,7 +31,7 @@ jobs:
         run: npm audit signatures
 
       - name: Adding Release dependencies
-        run: yarn add release-it @release-it/conventional-changelog
+        run: yarn global add release-it @release-it/conventional-changelog
 
       - name: Running Release
         run: yarn release-it --ci
