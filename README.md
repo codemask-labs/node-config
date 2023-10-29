@@ -29,7 +29,7 @@ import { ConfigModule } from '@codemaskjs/nestjs-config'
 @Module({
     imports: [
         ConfigModule.forFeature({
-            provides: <your config class>
+            provides: [<your config class>, ...]
         })
     ]
 })
