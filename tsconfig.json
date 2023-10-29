@@ -15,12 +15,12 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": ".",
+    "rootDirs": ["./example", "./lib"],
     "paths": {
-      "lib/*": ["./src/lib/*"],
-      "module/*": ["./src/module/*"],
-      "test/*": ["./src/test/*"]
+      "lib/*": ["./lib/*"],
+      "example/*": ["./example/*"]
     }
   },
-  "include": ["src"],
+  "include": ["lib", "example"],
   "exclude": ["dist", "node_modules"]
 }

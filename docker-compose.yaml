@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_USER: typeorm-user
+      POSTGRES_PASSWORD: typeorm-password
+    ports:
+      - 127.0.0.1:5432:5432
