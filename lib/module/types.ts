@@ -1,5 +1,5 @@
 import { ClassTransformOptions } from 'class-transformer'
-import { ValidatorOptions } from 'class-validator'
+import { ValidationError, ValidatorOptions } from 'class-validator'
 import { ConfigService } from './config.service'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,7 +26,7 @@ export type ConfigModuleRootOptions<TProvides extends Array<Class>> = {
 }
 
 export type ConfigModuleFeatureOptions<TProvides extends Array<Class>> = {
-    provides: Array<Class>
+    provides: Provides<TProvides>
     overrides?: Expand<Overrides<TProvides>>
 }
 
@@ -40,4 +40,10 @@ export type ConfigServiceOptions = {
 
 export type ConfigServiceExceptionOptions = {
     stack?: string
+}
+
+export type ConfigValidationError = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    config: any
+    validationErrors: Array<ValidationError>
 }
