@@ -28,7 +28,8 @@ export class ConfigModule {
     }
 
     private static createConfigProvidersForRoot<TProvides extends Array<Class>>({
-        provides, ...options
+        provides,
+        ...options
     }: ConfigModuleRootOptions<TProvides>): Array<ValueProvider | FactoryProvider> {
         return [
             {
@@ -43,7 +44,9 @@ export class ConfigModule {
         ]
     }
 
-    private static createConfigProvidersForFeature<TProvides extends Array<Class>>({ provides: config }: ConfigModuleFeatureOptions<TProvides>): Array<ValueProvider | FactoryProvider> {
+    private static createConfigProvidersForFeature<TProvides extends Array<Class>>({
+        provides: config
+    }: ConfigModuleFeatureOptions<TProvides>): Array<FactoryProvider> {
         const configMapToken = v4()
 
         return [

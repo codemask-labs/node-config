@@ -37,3 +37,7 @@ export type ConfigServiceOptions = {
     transformOptions?: ClassTransformOptions
     validatorOptions?: ValidatorOptions
 }
+
+export type ConfigServiceExceptionOptions = {
+    stack?: string
+}

@@ -1,6 +1,4 @@
-export type ConfigServiceExceptionOptions = {
-    stack?: string
-}
+import { ConfigServiceExceptionOptions } from './types'
 
 export class ConfigServiceException extends Error {
     constructor(message: string, options?: ConfigServiceExceptionOptions) {
