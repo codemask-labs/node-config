@@ -1,4 +1,4 @@
-name: Release to NPM
+name: Release
 on:
   workflow_dispatch:
 
@@ -31,7 +31,9 @@ jobs:
         run: npm audit signatures
 
       - name: Adding Release dependencies
-        run: yarn global add release-it @release-it/conventional-changelog
+        run: yarn dlx \
+          -p release-it \
+          -p @release-it/conventional-changelog
 
       - name: Running Release
         run: yarn release-it --ci
