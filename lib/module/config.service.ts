@@ -1,8 +1,8 @@
 import { mergeAll, pickAll } from 'ramda'
-import { ValidationError, validateSync } from 'class-validator'
+import { validateSync } from 'class-validator'
 import { plainToInstance } from 'class-transformer'
 import { config as dotenv } from 'dotenv'
-import { Class, ConfigMap, ConfigServiceOptions } from './types'
+import { Class, ConfigMap, ConfigServiceOptions, ConfigValidationError } from './types'
 import { ConfigServiceException } from './exceptions'
 import { ConfigServiceError } from './errors'
 
@@ -25,8 +25,9 @@ export class ConfigService {
     }
 
     private getConfigEntry(config: Class) {
-        const { overrides, transformOptions } = this.options
         const { parsed } = dotenv()
+        const { overrides } = this.options
+        const { options: { transformOptions } } = this.options.parent || this
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const keys = Object.keys(new config() as Record<string, any>)
@@ -58,15 +59,11 @@ export class ConfigService {
     }
 
     private validate(configMap: ConfigMap) {
-        type ConfigValidationError = {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            config: any
-            validationErrors: Array<ValidationError>
-        }
+        const { options: { validatorOptions } } = this.options.parent || this
 
         const configs = [...configMap.values()]
         const validationErrors = configs.reduce<Array<ConfigValidationError>>((errors, config) => {
-            const validationErrors = validateSync(config, this.options.validatorOptions)
+            const validationErrors = validateSync(config, validatorOptions)
 
             if (!validationErrors.length) {
                 return errors
