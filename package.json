@@ -29,6 +29,7 @@
     "build": "yarn rimraf dist && yarn build:package && yarn build:replace-tspaths",
     "lint": "yarn eslint --ext .ts lib",
     "format": "yarn prettier -w lib && yarn lint --fix",
+    "format:check": "yarn prettier --check lib",
     "update": "yarn upgrade-interactive"
   },
   "keywords": [
