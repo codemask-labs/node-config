@@ -27,7 +27,9 @@ export class ConfigService {
     private getConfigEntry(config: Class) {
         const { parsed } = dotenv()
         const { overrides } = this.options
-        const { options: { transformOptions } } = this.options.parent || this
+        const {
+            options: { transformOptions }
+        } = this.options.parent || this
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const keys = Object.keys(new config() as Record<string, any>)
@@ -59,7 +61,9 @@ export class ConfigService {
     }
 
     private validate(configMap: ConfigMap) {
-        const { options: { validatorOptions } } = this.options.parent || this
+        const {
+            options: { validatorOptions }
+        } = this.options.parent || this
 
         const configs = [...configMap.values()]
         const validationErrors = configs.reduce<Array<ConfigValidationError>>((errors, config) => {
