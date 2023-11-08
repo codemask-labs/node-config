@@ -5,6 +5,7 @@ import { config as dotenv } from 'dotenv'
 import { Class, ConfigMap, ConfigServiceOptions, ConfigValidationError } from './types'
 import { ConfigServiceException } from './exceptions'
 import { ConfigServiceError } from './errors'
+import { ValueProvider } from '@nestjs/common'
 
 export class ConfigService {
     private readonly configMap: ConfigMap
@@ -22,6 +23,10 @@ export class ConfigService {
         }
 
         return this.configMap.get(config)
+    }
+
+    getProviders(): Array<ValueProvider> {
+        return [...this.configMap.entries()].map(([token, config]) => ({ provide: token, useValue: config }))
     }
 
     private getConfigEntry(config: Class) {

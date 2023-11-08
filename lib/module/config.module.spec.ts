@@ -1,8 +1,8 @@
 import { setupNestApplication } from 'lib/test'
-import { ConfigModule } from './config.module'
 import { HttpConfig, NodeConfig } from 'example/config'
 import { NodeEnv } from 'example/enums'
-import { ConfigService } from '.'
+import { ConfigService } from './config.service'
+import { ConfigModule } from './config.module'
 
 describe('ConfigModule', () => {
     describe('forRoot', () => {
@@ -22,9 +22,13 @@ describe('ConfigModule', () => {
         it('registering valid configs', () => {
             const nodeConfig = app.get(ConfigService).get(NodeConfig)
             const httpConfig = app.get(ConfigService).get(HttpConfig)
+            const nodeConfigProvider = app.get(NodeConfig)
+            const httpConfigProvider = app.get(HttpConfig)
 
             expect(nodeConfig).toEqual({ NODE_ENV: NodeEnv.Production })
             expect(httpConfig).toEqual({ HTTP_SERVICE_HOST: 'localhost', HTTP_SERVICE_PORT: 3000 })
+            expect(nodeConfigProvider).toEqual({ NODE_ENV: NodeEnv.Production })
+            expect(httpConfigProvider).toEqual({ HTTP_SERVICE_HOST: 'localhost', HTTP_SERVICE_PORT: 3000 })
         })
     })
 
@@ -45,9 +49,13 @@ describe('ConfigModule', () => {
         it('registering valid configs', () => {
             const nodeConfig = app.get(ConfigService).get(NodeConfig)
             const httpConfig = app.get(ConfigService).get(HttpConfig)
+            const nodeConfigProvider = app.get(NodeConfig)
+            const httpConfigProvider = app.get(HttpConfig)
 
             expect(nodeConfig).toEqual({ NODE_ENV: NodeEnv.Production })
             expect(httpConfig).toEqual({ HTTP_SERVICE_HOST: 'localhost', HTTP_SERVICE_PORT: 3000 })
+            expect(nodeConfigProvider).toEqual({ NODE_ENV: NodeEnv.Production })
+            expect(httpConfigProvider).toEqual({ HTTP_SERVICE_HOST: 'localhost', HTTP_SERVICE_PORT: 3000 })
         })
     })
 })

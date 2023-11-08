@@ -40,12 +40,19 @@ export class ConfigModule {
                 provide: ConfigService,
                 useFactory: (service: ConfigService) => service,
                 inject: [GLOBAL_CONFIG_SERVICE_TOKEN]
-            }
+            },
+            ...provides.map(
+                (provide): FactoryProvider => ({
+                    provide,
+                    useFactory: (service: ConfigService) => service.get(provide),
+                    inject: [ConfigService]
+                })
+            )
         ]
     }
 
     private static createConfigProvidersForFeature<TProvides extends Array<Class>>({
-        provides: config,
+        provides,
         ...options
     }: ConfigModuleFeatureOptions<TProvides>): Array<FactoryProvider> {
         const configMapToken = v4()
@@ -53,7 +60,7 @@ export class ConfigModule {
         return [
             {
                 provide: configMapToken,
-                useFactory: (parent?: ConfigService) => new ConfigService(config, { parent, ...options }),
+                useFactory: (parent?: ConfigService) => new ConfigService(provides, { parent, ...options }),
                 inject: [
                     {
                         optional: true,
@@ -65,7 +72,14 @@ export class ConfigModule {
                 provide: ConfigService,
                 useFactory: (service: ConfigService) => service,
                 inject: [configMapToken]
-            }
+            },
+            ...provides.map(
+                (provide): FactoryProvider => ({
+                    provide,
+                    useFactory: (service: ConfigService) => service.get(provide),
+                    inject: [configMapToken]
+                })
+            )
         ]
     }
 }
