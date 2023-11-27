@@ -43,8 +43,7 @@
     "class-validator": "*"
   },
   "dependencies": {
-    "ramda": "0.29.1",
-    "uuid": "9.0.1"
+    "ramda": "0.29.1"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "18.1.0",
@@ -61,7 +60,6 @@
     "@types/pg": "8.10.7",
     "@types/ramda": "0.29.7",
     "@types/supertest": "2.0.15",
-    "@types/uuid": "9.0.6",
     "@typescript-eslint/eslint-plugin": "6.9.0",
     "@typescript-eslint/eslint-plugin-tslint": "6.9.0",
     "@typescript-eslint/parser": "6.9.0",

@@ -1,11 +1,11 @@
-import { mergeAll, pickAll } from 'ramda'
+import { pickAll } from 'ramda'
+import { config, parse } from 'dotenv'
 import { validateSync } from 'class-validator'
 import { plainToInstance } from 'class-transformer'
-import { config as dotenv } from 'dotenv'
+import { ValueProvider } from '@nestjs/common'
 import { Class, ConfigMap, ConfigServiceOptions, ConfigValidationError } from './types'
 import { ConfigServiceException } from './exceptions'
 import { ConfigServiceError } from './errors'
-import { ValueProvider } from '@nestjs/common'
 
 export class ConfigService {
     private readonly configMap: ConfigMap
@@ -29,18 +29,21 @@ export class ConfigService {
         return [...this.configMap.entries()].map(([token, config]) => ({ provide: token, useValue: config }))
     }
 
-    private getConfigEntry(config: Class) {
-        const { parsed } = dotenv()
-        const { overrides } = this.options
+    private getTransformedConfig(constructor: Class) {
         const {
-            options: { transformOptions }
+            options: { transformOptions, overrides = {} }
         } = this.options.parent || this
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const keys = Object.keys(new config() as Record<string, any>)
-        const env = pickAll(keys, overrides || mergeAll([{}, process.env, parsed]))
+        const mappedEnvs = Object.entries(process.env)
+            .map(([key, value]) => `${key}=${value}`)
+            .join('\n')
 
-        return plainToInstance(config, env, {
+        const { parsed: fileEnvs = {} } = config()
+        const processEnvs = parse(mappedEnvs)
+        const availableFields = Object.getOwnPropertyNames(new constructor())
+        const env = pickAll(availableFields, { ...processEnvs, ...fileEnvs, ...overrides })
+
+        return plainToInstance(constructor, env, {
             enableImplicitConversion: true,
             exposeDefaultValues: true,
             ...transformOptions
@@ -48,18 +51,16 @@ export class ConfigService {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private getConfigEntries(config: Array<Class>): Array<[Class, any]> {
-        return config.map(constructor => [constructor, this.getConfigEntry(constructor)])
+    private getTransformedConfigs(config: Array<Class>): Array<[Class, any]> {
+        return config.map(constructor => [constructor, this.getTransformedConfig(constructor)])
     }
 
     private getConfigMap(config: Array<Class>): ConfigMap {
         const { parent } = this.options
-        const entries = this.getConfigEntries(config)
+        const entries = this.getTransformedConfigs(config)
 
         if (parent) {
-            const configsWithBase = [...parent.configMap.entries(), ...entries]
-
-            return this.validate(new Map(configsWithBase))
+            return this.validate(new Map([...parent.configMap.entries(), ...entries]))
         }
 
         return this.validate(new Map(entries))
