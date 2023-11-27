@@ -1,4 +1,4 @@
-import { v4 } from 'uuid'
+import { randomUUID } from 'node:crypto'
 import { Module, DynamicModule, FactoryProvider, ValueProvider } from '@nestjs/common'
 import { ConfigModuleRootOptions, ConfigModuleFeatureOptions, Class } from './types'
 import { ConfigService } from './config.service'
@@ -55,7 +55,7 @@ export class ConfigModule {
         provides,
         ...options
     }: ConfigModuleFeatureOptions<TProvides>): Array<FactoryProvider> {
-        const configMapToken = v4()
+        const configMapToken = randomUUID()
 
         return [
             {

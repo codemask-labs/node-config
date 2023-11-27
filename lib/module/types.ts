@@ -11,7 +11,7 @@ export type Provides<TProvides extends Array<Class>> = [...TProvides]
 
 export type Overrides<TProvides extends Array<Class>> = TProvides extends [a: Class<infer A>, ...rest: infer R]
     ? R extends Array<Class>
-        ? { [Key in keyof A]: A[Key] } & Overrides<R>
+        ? { [Key in keyof A]?: A[Key] } & Overrides<R>
         : never
     : object
 
