@@ -1,5 +1,12 @@
 
 
+## [1.2.1](https://github.com/codemaskinc/nestjs-config/compare/1.2.0...1.2.1) (2023-11-27)
+
+
+### Bug Fixes
+
+* process envs ([71f3a6c](https://github.com/codemaskinc/nestjs-config/commit/71f3a6c9e8fc08558c8ba1ec327965f7de9d2ef6))
+
 ## [1.2.0](https://github.com/codemaskinc/nestjs-config/compare/1.1.0...1.2.0) (2023-11-08)
 
 
