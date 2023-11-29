@@ -6,7 +6,6 @@ import { ValueProvider } from '@nestjs/common'
 import { Class, ConfigMap, ConfigServiceOptions, ConfigValidationError } from './types'
 import { ConfigServiceException } from './exceptions'
 import { ConfigServiceError } from './errors'
-import { INCLUDES_NEW_LINE_REGEXP } from './constants'
 
 export class ConfigService {
     private readonly configMap: ConfigMap
