@@ -36,13 +36,7 @@ export class ConfigService {
         } = this.options.parent || this
 
         const mappedEnvs = Object.entries(process.env)
-            .map(([key, value]) => {
-                if (value && INCLUDES_NEW_LINE_REGEXP.test(value)) {
-                    return `${key}="${value}"`
-                }
-
-                return `${key}=${value}`
-            })
+            .map(([key, value]) => `${key}="${value}"`)
             .join('\n')
 
         const { parsed: fileEnvs = {} } = config()
