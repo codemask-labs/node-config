@@ -1,5 +1,12 @@
 
 
+## [1.2.2](https://github.com/codemaskinc/nestjs-config/compare/1.2.1...1.2.2) (2023-11-29)
+
+
+### Bug Fixes
+
+* multiline values parsed by dotenv ([b135510](https://github.com/codemaskinc/nestjs-config/commit/b135510b515167f45d022ffd9e2c34b897cd7e1e))
+
 ## [1.2.1](https://github.com/codemaskinc/nestjs-config/compare/1.2.0...1.2.1) (2023-11-27)
 
 
