@@ -6,6 +6,7 @@ import { ValueProvider } from '@nestjs/common'
 import { Class, ConfigMap, ConfigServiceOptions, ConfigValidationError } from './types'
 import { ConfigServiceException } from './exceptions'
 import { ConfigServiceError } from './errors'
+import { INCLUDES_NEW_LINE_REGEXP } from './constants'
 
 export class ConfigService {
     private readonly configMap: ConfigMap
@@ -35,7 +36,13 @@ export class ConfigService {
         } = this.options.parent || this
 
         const mappedEnvs = Object.entries(process.env)
-            .map(([key, value]) => `${key}=${value}`)
+            .map(([key, value]) => {
+                if (value && INCLUDES_NEW_LINE_REGEXP.test(value)) {
+                    return `${key}="${value}"`
+                }
+
+                return `${key}=${value}`
+            })
             .join('\n')
 
         const { parsed: fileEnvs = {} } = config()
