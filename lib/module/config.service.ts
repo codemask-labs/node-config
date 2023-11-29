@@ -35,7 +35,7 @@ export class ConfigService {
         } = this.options.parent || this
 
         const mappedEnvs = Object.entries(process.env)
-            .map(([key, value]) => `${key}=${value}`)
+            .map(([key, value]) => `${key}="${value}"`)
             .join('\n')
 
         const { parsed: fileEnvs = {} } = config()
