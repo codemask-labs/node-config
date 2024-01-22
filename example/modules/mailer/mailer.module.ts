@@ -6,9 +6,7 @@ import { MailerService } from './mailer.service'
 @Module({
     providers: [MailerService],
     imports: [
-        ConfigModule.forFeature({
-            provides: [MailerConfig]
-        })
+        ConfigModule.forFeature([MailerConfig])
     ]
 })
 export class MailerModule {}

@@ -5,15 +5,11 @@ import { TypeormConfig } from 'example/config'
 
 @Module({
     imports: [
+        ConfigModule.forFeature([TypeormConfig]),
         TypeOrmModule.forRootAsync({
-            imports: [
-                ConfigModule.forFeature({
-                    provides: [TypeormConfig]
-                })
-            ],
             inject: [ConfigService],
-            useFactory: (configService: ConfigService) => {
-                const { TYPEORM_CONNECTION, TYPEORM_HOST, TYPEORM_PORT, TYPEORM_USERNAME, TYPEORM_PASSWORD, TYPEORM_DATABASE, TYPEORM_LOGGING } = configService.get(TypeormConfig)
+            useFactory: (config: ConfigService) => {
+                const { TYPEORM_CONNECTION, TYPEORM_HOST, TYPEORM_PORT, TYPEORM_USERNAME, TYPEORM_PASSWORD, TYPEORM_DATABASE, TYPEORM_LOGGING } = config.get(TypeormConfig)
 
                 return {
                     type: TYPEORM_CONNECTION,

@@ -6,9 +6,7 @@ import { MailerModule } from '../mailer'
 
 @Module({
     imports: [
-        ConfigModule.forRoot({
-            provides: [NodeConfig, HttpConfig]
-        }),
+        ConfigModule.forRoot([NodeConfig, HttpConfig]),
         MailerModule,
         UsersModule
     ]

@@ -1,85 +1,91 @@
 import { randomUUID } from 'node:crypto'
-import { Module, DynamicModule, FactoryProvider, ValueProvider } from '@nestjs/common'
-import { ConfigModuleRootOptions, ConfigModuleFeatureOptions, Class } from './types'
+import { Module, DynamicModule } from '@nestjs/common'
+import { Class } from './types'
+import { getEnvironmentVariables } from './utils'
 import { ConfigService } from './config.service'
-import { GLOBAL_CONFIG_SERVICE_TOKEN } from './constants'
 
 @Module({})
 export class ConfigModule {
-    static forRoot<TProvides extends Array<Class>>({ global, ...options }: ConfigModuleRootOptions<TProvides>): DynamicModule {
-        const providers = this.createConfigProvidersForRoot(options)
-
+    static forRoot<Providers extends Array<Class>>(providers?: Providers): DynamicModule {
         return {
-            global: global ?? true,
+            global: true,
             module: ConfigModule,
-            providers,
-            exports: providers.map(({ provide }) => provide)
-        }
-    }
-
-    static forFeature<TProvides extends Array<Class>>(options: ConfigModuleFeatureOptions<TProvides>): DynamicModule {
-        const providers = this.createConfigProvidersForFeature(options)
-
-        return {
-            module: ConfigModule,
-            providers,
-            exports: providers.map(({ provide }) => provide)
-        }
-    }
-
-    private static createConfigProvidersForRoot<TProvides extends Array<Class>>({
-        provides,
-        ...options
-    }: ConfigModuleRootOptions<TProvides>): Array<ValueProvider | FactoryProvider> {
-        return [
-            {
-                provide: GLOBAL_CONFIG_SERVICE_TOKEN,
-                useValue: new ConfigService(provides, options)
-            },
-            {
-                provide: ConfigService,
-                useFactory: (service: ConfigService) => service,
-                inject: [GLOBAL_CONFIG_SERVICE_TOKEN]
-            },
-            ...provides.map(
-                (provide): FactoryProvider => ({
-                    provide,
-                    useFactory: (service: ConfigService) => service.get(provide),
-                    inject: [ConfigService]
-                })
-            )
-        ]
-    }
-
-    private static createConfigProvidersForFeature<TProvides extends Array<Class>>({
-        provides,
-        ...options
-    }: ConfigModuleFeatureOptions<TProvides>): Array<FactoryProvider> {
-        const configMapToken = randomUUID()
-
-        return [
-            {
-                provide: configMapToken,
-                useFactory: (parent?: ConfigService) => new ConfigService(provides, { parent, ...options }),
-                inject: [
-                    {
-                        optional: true,
-                        token: GLOBAL_CONFIG_SERVICE_TOKEN
+            providers: [
+                {
+                    provide: 'GLOBAL_CONFIG_MAP',
+                    useValue: new Map()
+                },
+                {
+                    provide: 'GLOBAL_ENVIRONMENT_VARIABLES',
+                    useValue: getEnvironmentVariables()
+                },
+                ConfigService,
+                {
+                    provide: randomUUID(),
+                    inject: [ConfigService],
+                    useFactory: (configService: ConfigService) => {
+                        configService.add(providers || []).validate(providers || [])
                     }
-                ]
-            },
-            {
-                provide: ConfigService,
-                useFactory: (service: ConfigService) => service,
-                inject: [configMapToken]
-            },
-            ...provides.map(
-                (provide): FactoryProvider => ({
-                    provide,
-                    useFactory: (service: ConfigService) => service.get(provide),
-                    inject: [configMapToken]
-                })
-            )
-        ]
+                }
+            ],
+            exports: [ConfigService]
+        }
+    }
+
+    static forFeature<Providers extends Array<Class>>(providers: Providers): DynamicModule {
+        return {
+            module: ConfigModule,
+            providers: [
+                {
+                    provide: randomUUID(),
+                    useFactory: (configService?: ConfigService) => {
+                        if (!configService) {
+                            throw new Error('Failed to find ConfigService. Have you registered ConfigModule.forRoot()?')
+                        }
+
+                        return configService.add(providers).validate(providers)
+                    },
+                    inject: [
+                        {
+                            optional: true,
+                            token: ConfigService
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    static forTest<Config>(provider: Class<Config>, overrides?: Partial<Config>): DynamicModule {
+        return {
+            global: true,
+            module: ConfigModule,
+            providers: [
+                {
+                    provide: 'GLOBAL_CONFIG_MAP',
+                    useValue: new Map()
+                },
+                {
+                    provide: 'GLOBAL_ENVIRONMENT_VARIABLES',
+                    useValue: getEnvironmentVariables()
+                },
+                {
+                    provide: 'CONFIG_PROVIDERS',
+                    useValue: [provider]
+                },
+                ConfigService,
+                {
+                    provide: randomUUID(),
+                    inject: [ConfigService],
+                    useFactory: (configService: ConfigService) => {
+                        configService.add([provider])
+                        configService.override(provider, overrides)
+                        configService.validate([provider])
+                    }
+                }
+            ],
+            exports: [ConfigService]
+        }
     }
 }
