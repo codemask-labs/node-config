@@ -1,5 +1,13 @@
 
 
+## [1.3.0](https://github.com/codemaskinc/nestjs-config/compare/1.2.2...1.3.0) (2024-01-22)
+
+
+### Features
+
+* cleaned and refactored version of config module ([c756d48](https://github.com/codemaskinc/nestjs-config/commit/c756d483ed7566278ad735b1b811910e4cac61ff))
+* excluded redundant files from package ([c34da61](https://github.com/codemaskinc/nestjs-config/commit/c34da614563f9f77ef3f0bd90bd5ac43f5d8dba7))
+
 ## [1.2.2](https://github.com/codemaskinc/nestjs-config/compare/1.2.1...1.2.2) (2023-11-29)
 
 
