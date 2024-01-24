@@ -4,7 +4,7 @@ import { Inject, Injectable, Logger } from '@nestjs/common'
 import { ConfigServiceError } from './errors'
 import { ConfigServiceException } from './exceptions'
 import { Class, ConfigMap, Flatten, UnionToIntersection } from './types'
-import { getInstanceProperties } from './utils'
+import { excludeUnknownProperties, getInstanceProperties } from './utils'
 
 @Injectable()
 export class ConfigService {
@@ -20,7 +20,10 @@ export class ConfigService {
     add(providers: Array<Class>) {
         providers.forEach(provider => {
             if (!this.configs.has(provider)) {
-                const instance = plainToInstance(provider, this.envs, {
+                // todo: exclude unknown properties as a option to the module?
+                // note: older versions of typescript does not declare properties on a class
+                const envs = excludeUnknownProperties(provider, this.envs)
+                const instance = plainToInstance(provider, envs, {
                     enableImplicitConversion: true,
                     exposeDefaultValues: true
                 })

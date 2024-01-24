@@ -30,3 +30,14 @@ export const getInstanceProperties = <Instance>(instance: Class<Instance>) => {
         }
     }, {})
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const excludeUnknownProperties = (constructor: Class, values: Record<string, any>) =>
+    Object.getOwnPropertyNames(new constructor()).reduce(
+        (result, propertyName) =>
+            // eslint-disable-next-line functional/immutable-data
+            Object.assign(result, {
+                [propertyName]: values[propertyName]
+            }),
+        {}
+    )

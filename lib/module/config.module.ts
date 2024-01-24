@@ -56,7 +56,6 @@ export class ConfigModule {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     static forTest<Config>(provider: Class<Config>, overrides?: Partial<Config>): DynamicModule {
         return {
             global: true,
