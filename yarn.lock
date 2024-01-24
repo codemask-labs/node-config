@@ -518,7 +518,7 @@ __metadata:
     "@swc/jest": "npm:0.2.29"
     "@types/dotenv": "npm:8.2.0"
     "@types/jest": "npm:29.5.6"
-    "@types/node": "npm:20.8.9"
+    "@types/node": "npm:20.11.6"
     "@types/pg": "npm:8.10.7"
     "@types/ramda": "npm:0.29.7"
     "@types/supertest": "npm:2.0.15"
@@ -1569,12 +1569,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.8.9":
+"@types/node@npm:*":
   version: 20.8.9
   resolution: "@types/node@npm:20.8.9"
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 6fb5604ac087c8be9aeb9ee1413fae2e691c603c9a691bd722e113597b883f21e8380a44d114ab894b435a491bfc939c8478cd57bcf890c585b961343b124964
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:20.11.6":
+  version: 20.11.6
+  resolution: "@types/node@npm:20.11.6"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 922bc1e78076bb79fd168902c80321b54487181e3be3386e183fc535d102d91c8902da25148eaec841410fab7fb872fd4a93ec9ac9299cedf0ebcbf16b442aa1
   languageName: node
   linkType: hard
 
