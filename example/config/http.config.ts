@@ -10,6 +10,6 @@ export class HttpConfig {
     readonly HTTP_SERVICE_HOST: string = '0.0.0.0'
 
     getHttpServicePort() {
-        return this.HTTP_SERVICE_HOST
+        return this.HTTP_SERVICE_PORT
     }
 }
