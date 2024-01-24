@@ -1,5 +1,12 @@
 
 
+## [1.3.2](https://github.com/codemaskinc/nestjs-config/compare/1.3.1...1.3.2) (2024-01-24)
+
+
+### Bug Fixes
+
+* get environment variables ([020e3ad](https://github.com/codemaskinc/nestjs-config/commit/020e3adb218f8f2c83b360c45186375cfa726fa9))
+
 ## [1.3.1](https://github.com/codemaskinc/nestjs-config/compare/1.3.0...1.3.1) (2024-01-24)
 
 
