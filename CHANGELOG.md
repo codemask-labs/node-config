@@ -1,5 +1,13 @@
 
 
+## [1.4.1](https://github.com/codemaskinc/nestjs-config/compare/1.4.0...1.4.1) (2024-01-24)
+
+
+### Bug Fixes
+
+* config service values test ([9e10d5b](https://github.com/codemaskinc/nestjs-config/commit/9e10d5bcae1866994cbf21f23d6fb3b705c56a9c))
+* get instance properties to arrow functions ([0eca3f1](https://github.com/codemaskinc/nestjs-config/commit/0eca3f1ed476be03e81a39a8c71b3d810e6c451c))
+
 ## [1.4.0](https://github.com/codemaskinc/nestjs-config/compare/1.3.2...1.4.0) (2024-01-24)
 
 
