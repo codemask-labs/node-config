@@ -9,7 +9,7 @@ export const getEnvironmentVariables = (): Record<string, string> => {
             if (value.includes('\n')) {
                 return {
                     ...variables,
-                    [key]: value.replaceAll(/\n/g, '\\n').replaceAll(/\r/g, '\\r')
+                    [key]: value.replaceAll(/\n+/g, '\\n').replaceAll(/\r+/g, '\\r')
                 }
             }
 

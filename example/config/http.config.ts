@@ -8,7 +8,4 @@ export class HttpConfig {
     @IsOptional()
     @IsString()
     readonly HTTP_SERVICE_HOST: string = '0.0.0.0'
-
-    @IsString()
-    readonly RANDOM_KEY: string
 }

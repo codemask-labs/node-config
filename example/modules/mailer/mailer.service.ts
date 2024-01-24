@@ -11,6 +11,6 @@ export class MailerService implements OnApplicationBootstrap {
     }
 
     onApplicationBootstrap() {
-        console.debug('mailer config:', this.config)
+        // console.debug('mailer config:', this.config)
     }
 }
