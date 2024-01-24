@@ -8,8 +8,7 @@ export const getEnvironmentVariables = <T extends Record<string, string> = Recor
 export const getInstanceProperties = <Instance>(instance: Class<Instance>) => {
     const properties = Object.getOwnPropertyNames(instance)
     const prototype = Object.getPrototypeOf(instance)
-    const methods = Object.getOwnPropertyNames(prototype)
-        .filter(name => name !== 'constructor')
+    const methods = Object.getOwnPropertyNames(prototype).filter(name => name !== 'constructor')
 
     const propertyNames = [...methods, ...properties] as Array<keyof typeof instance>
 
