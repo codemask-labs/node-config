@@ -21,7 +21,7 @@ export const getInstanceProperties = <Instance>(instance: Class<Instance>) => {
             return {
                 ...result,
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                [propertyName]: (...args: Array<any>) => value.apply(config, args)
+                [propertyName]: (...args: Array<any>) => value.apply(instance, args)
             }
         }
 
