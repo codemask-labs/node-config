@@ -1,5 +1,12 @@
 
 
+## [1.4.0](https://github.com/codemaskinc/nestjs-config/compare/1.3.2...1.4.0) (2024-01-24)
+
+
+### Features
+
+* service get config values ([14d9212](https://github.com/codemaskinc/nestjs-config/commit/14d921277d9969bccc215b38acfb05c67ddeda5c))
+
 ## [1.3.2](https://github.com/codemaskinc/nestjs-config/compare/1.3.1...1.3.2) (2024-01-24)
 
 
