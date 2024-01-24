@@ -9,7 +9,7 @@ export class HttpConfig {
     @IsString()
     readonly HTTP_SERVICE_HOST: string = '0.0.0.0'
 
-    getTest() {
-        return 911
+    getHttpServicePort() {
+        return this.HTTP_SERVICE_PORT
     }
 }

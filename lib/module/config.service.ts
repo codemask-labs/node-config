@@ -3,17 +3,8 @@ import { plainToInstance } from 'class-transformer'
 import { Inject, Injectable, Logger } from '@nestjs/common'
 import { ConfigServiceError } from './errors'
 import { ConfigServiceException } from './exceptions'
-import { Class, ConfigMap } from './types'
+import { Class, ConfigMap, Flatten, UnionToIntersection } from './types'
 import { getInstanceProperties } from './utils'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer T) => void)
-    ? T
-    : never
-
-type Flatten<T> = T extends ReadonlyArray<infer Item>
-    ? Item extends Class ? InstanceType<Item> : Item
-    : T
 
 @Injectable()
 export class ConfigService {
@@ -58,27 +49,24 @@ export class ConfigService {
             throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
         }
 
-        return defaultValue || config[key] as Config[typeof key]
+        return defaultValue || (config[key] as Config[typeof key])
     }
 
     values<Providers extends Array<Class>>(...providers: Providers) {
-        return providers.reduce(
-            (values, provider) => {
-                const config = this.configs.get(provider)
+        return providers.reduce((values, provider) => {
+            const config = this.configs.get(provider)
 
-                if (!config) {
-                    throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
-                }
+            if (!config) {
+                throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
+            }
 
-                const properties = getInstanceProperties(config)
+            const properties = getInstanceProperties(config)
 
-                return {
-                    ...values,
-                    ...properties
-                }
-            },
-            {}
-        ) as UnionToIntersection<Flatten<Providers>>
+            return {
+                ...values,
+                ...properties
+            }
+        }, {}) as UnionToIntersection<Flatten<Providers>>
     }
 
     override<Config>(provider: Class<Config>, overrides?: Partial<Config>) {
