@@ -4,6 +4,16 @@ import { Inject, Injectable, Logger } from '@nestjs/common'
 import { ConfigServiceError } from './errors'
 import { ConfigServiceException } from './exceptions'
 import { Class, ConfigMap } from './types'
+import { getInstanceProperties } from './utils'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer T) => void)
+    ? T
+    : never
+
+type Flatten<T> = T extends ReadonlyArray<infer Item>
+    ? Item extends Class ? InstanceType<Item> : Item
+    : T
 
 @Injectable()
 export class ConfigService {
@@ -51,7 +61,7 @@ export class ConfigService {
         return defaultValue || config[key] as Config[typeof key]
     }
 
-    values<Configs>(...providers: Array<Class<Configs>>) {
+    values<Providers extends Array<Class>>(...providers: Providers) {
         return providers.reduce(
             (values, provider) => {
                 const config = this.configs.get(provider)
@@ -60,13 +70,15 @@ export class ConfigService {
                     throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
                 }
 
+                const properties = getInstanceProperties(config)
+
                 return {
                     ...values,
-                    ...config
+                    ...properties
                 }
             },
             {}
-        )
+        ) as UnionToIntersection<Flatten<Providers>>
     }
 
     override<Config>(provider: Class<Config>, overrides?: Partial<Config>) {

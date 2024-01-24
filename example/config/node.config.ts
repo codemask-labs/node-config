@@ -7,4 +7,8 @@ export class NodeConfig {
 
     @IsString()
     readonly RANDOM_KEY: string
+
+    getTest() {
+        return 'hello world'
+    }
 }
