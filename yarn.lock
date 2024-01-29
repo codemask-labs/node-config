@@ -510,7 +510,7 @@ __metadata:
     "@commitlint/config-conventional": "npm:18.1.0"
     "@nestjs/cli": "npm:10.2.0"
     "@nestjs/common": "npm:10.2.7"
-    "@nestjs/core": "npm:10.2.7"
+    "@nestjs/core": "npm:10.3.1"
     "@nestjs/platform-express": "npm:10.2.7"
     "@nestjs/testing": "npm:10.2.7"
     "@nestjs/typeorm": "npm:10.0.0"
@@ -1073,9 +1073,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:10.2.7":
-  version: 10.2.7
-  resolution: "@nestjs/core@npm:10.2.7"
+"@nestjs/core@npm:10.3.1":
+  version: 10.3.1
+  resolution: "@nestjs/core@npm:10.3.1"
   dependencies:
     "@nuxtjs/opencollective": "npm:0.3.2"
     fast-safe-stringify: "npm:2.1.1"
@@ -1097,7 +1097,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: e455591fae728a935f334cf388263882acba64e6fce928c1b6b7e76ed7f0a38024d2523011502e77f2b4635c32761f6b10911f735cee20702442fab3688fa491
+  checksum: 673ea48e2d68c15fa55732529440bf3f29fbb446b903caad04a6c71986d819336601ed426bb16943f4031d600ef28a21ef81acec14731e050d3d0c891c3f7b31
   languageName: node
   linkType: hard
 
