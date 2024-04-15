@@ -3,7 +3,7 @@ import { Module, DynamicModule, OnModuleInit } from '@nestjs/common'
 import { Class } from './types'
 import { getEnvironmentVariables } from './utils'
 import { ConfigService } from './config.service'
-import { ConfigModuleFeature } from './config.module-feature'
+import { ConfigFeatureModule } from './config.feature-module'
 
 @Module({})
 export class ConfigModule implements OnModuleInit {
@@ -37,7 +37,7 @@ export class ConfigModule implements OnModuleInit {
 
     static forFeature<Providers extends Array<Class>>(providers: Providers): DynamicModule {
         return {
-            module: ConfigModuleFeature,
+            module: ConfigFeatureModule,
             providers: [
                 {
                     provide: randomUUID(),
