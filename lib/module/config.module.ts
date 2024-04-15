@@ -1,31 +1,34 @@
 import { randomUUID } from 'node:crypto'
-import { Module, DynamicModule } from '@nestjs/common'
+import { Module, DynamicModule, OnModuleInit } from '@nestjs/common'
 import { Class } from './types'
 import { getEnvironmentVariables } from './utils'
 import { ConfigService } from './config.service'
+import { ConfigModuleFeature } from './config.module-feature'
 
 @Module({})
-export class ConfigModule {
+export class ConfigModule implements OnModuleInit {
+    constructor(private readonly configService: ConfigService) {}
+
     static forRoot<Providers extends Array<Class>>(providers?: Providers): DynamicModule {
+        const configMap = new Map()
+        const environmentVariables = getEnvironmentVariables()
+        const service = new ConfigService(configMap, environmentVariables).add(providers ?? [])
+
         return {
             global: true,
             module: ConfigModule,
             providers: [
                 {
                     provide: 'GLOBAL_CONFIG_MAP',
-                    useValue: new Map()
+                    useValue: configMap
                 },
                 {
                     provide: 'GLOBAL_ENVIRONMENT_VARIABLES',
-                    useValue: getEnvironmentVariables()
+                    useValue: environmentVariables
                 },
-                ConfigService,
                 {
-                    provide: randomUUID(),
-                    inject: [ConfigService],
-                    useFactory: (configService: ConfigService) => {
-                        configService.add(providers || []).validate(providers || [])
-                    }
+                    provide: ConfigService,
+                    useValue: service
                 }
             ],
             exports: [ConfigService]
@@ -34,7 +37,7 @@ export class ConfigModule {
 
     static forFeature<Providers extends Array<Class>>(providers: Providers): DynamicModule {
         return {
-            module: ConfigModule,
+            module: ConfigModuleFeature,
             providers: [
                 {
                     provide: randomUUID(),
@@ -43,7 +46,7 @@ export class ConfigModule {
                             throw new Error('Failed to find ConfigService. Have you registered ConfigModule.forRoot()?')
                         }
 
-                        return configService.add(providers).validate(providers)
+                        return configService.add(providers)
                     },
                     inject: [
                         {
@@ -56,36 +59,9 @@ export class ConfigModule {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static forTest<Config>(provider: Class<Config>, overrides?: Partial<Config>): DynamicModule {
-        return {
-            global: true,
-            module: ConfigModule,
-            providers: [
-                {
-                    provide: 'GLOBAL_CONFIG_MAP',
-                    useValue: new Map()
-                },
-                {
-                    provide: 'GLOBAL_ENVIRONMENT_VARIABLES',
-                    useValue: getEnvironmentVariables()
-                },
-                {
-                    provide: 'CONFIG_PROVIDERS',
-                    useValue: [provider]
-                },
-                ConfigService,
-                {
-                    provide: randomUUID(),
-                    inject: [ConfigService],
-                    useFactory: (configService: ConfigService) => {
-                        configService.add([provider])
-                        configService.override(provider, overrides)
-                        configService.validate([provider])
-                    }
-                }
-            ],
-            exports: [ConfigService]
-        }
+    onModuleInit() {
+        const providers = this.configService.getProviders()
+
+        this.configService.validate(providers)
     }
 }

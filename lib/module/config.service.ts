@@ -12,20 +12,20 @@ export class ConfigService {
 
     constructor(
         @Inject('GLOBAL_CONFIG_MAP')
-        private readonly configs: ConfigMap,
+        private readonly configMap: ConfigMap,
         @Inject('GLOBAL_ENVIRONMENT_VARIABLES')
         private readonly envs: Record<string, string>
     ) {}
 
     add(providers: Array<Class>) {
         providers.forEach(provider => {
-            if (!this.configs.has(provider)) {
+            if (!this.configMap.has(provider)) {
                 const instance = plainToInstance(provider, this.envs, {
                     enableImplicitConversion: true,
                     exposeDefaultValues: true
                 })
 
-                this.configs.set(provider, instance)
+                this.configMap.set(provider, instance)
             }
         })
 
@@ -33,7 +33,7 @@ export class ConfigService {
     }
 
     get<Config>(provider: Class<Config>) {
-        const config = this.configs.get(provider)
+        const config = this.configMap.get(provider)
 
         if (!config) {
             throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
@@ -43,7 +43,7 @@ export class ConfigService {
     }
 
     value<Config, Key extends keyof Config>(provider: Class<Config>, key: Key, defaultValue?: Config[Key]) {
-        const config = this.configs.get(provider)
+        const config = this.configMap.get(provider)
 
         if (!config) {
             throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
@@ -54,7 +54,7 @@ export class ConfigService {
 
     values<Providers extends Array<Class>>(...providers: Providers) {
         return providers.reduce((values, provider) => {
-            const config = this.configs.get(provider)
+            const config = this.configMap.get(provider)
 
             if (!config) {
                 throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
@@ -70,7 +70,7 @@ export class ConfigService {
     }
 
     override<Config>(provider: Class<Config>, overrides?: Partial<Config>) {
-        const config = this.configs.get(provider)
+        const config = this.configMap.get(provider)
 
         if (!config) {
             throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
@@ -82,7 +82,7 @@ export class ConfigService {
 
     validate<Config>(providers: Array<Class<Config>>) {
         const validations = providers.map(provider => {
-            const config = this.configs.get(provider)
+            const config = this.configMap.get(provider)
 
             if (!config) {
                 throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
@@ -116,7 +116,15 @@ export class ConfigService {
         }
     }
 
+    getConfigMap() {
+        return this.configMap
+    }
+
+    getProviders() {
+        return [...this.configMap.keys()]
+    }
+
     getConfigs() {
-        return this.configs
+        return [...this.configMap.values()]
     }
 }
