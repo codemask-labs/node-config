@@ -510,7 +510,7 @@ __metadata:
     "@commitlint/config-conventional": "npm:18.1.0"
     "@nestjs/cli": "npm:10.2.0"
     "@nestjs/common": "npm:10.2.7"
-    "@nestjs/core": "npm:10.2.7"
+    "@nestjs/core": "npm:10.3.9"
     "@nestjs/platform-express": "npm:10.2.7"
     "@nestjs/testing": "npm:10.2.7"
     "@nestjs/typeorm": "npm:10.0.0"
@@ -1073,9 +1073,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:10.2.7":
-  version: 10.2.7
-  resolution: "@nestjs/core@npm:10.2.7"
+"@nestjs/core@npm:10.3.9":
+  version: 10.3.9
+  resolution: "@nestjs/core@npm:10.3.9"
   dependencies:
     "@nuxtjs/opencollective": "npm:0.3.2"
     fast-safe-stringify: "npm:2.1.1"
@@ -1088,7 +1088,7 @@ __metadata:
     "@nestjs/microservices": ^10.0.0
     "@nestjs/platform-express": ^10.0.0
     "@nestjs/websockets": ^10.0.0
-    reflect-metadata: ^0.1.12
+    reflect-metadata: ^0.1.12 || ^0.2.0
     rxjs: ^7.1.0
   peerDependenciesMeta:
     "@nestjs/microservices":
@@ -1097,7 +1097,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: e455591fae728a935f334cf388263882acba64e6fce928c1b6b7e76ed7f0a38024d2523011502e77f2b4635c32761f6b10911f735cee20702442fab3688fa491
+  checksum: 2e9834eaf412edd1fcbfa9e9d1c4876f5011547c31a2699afc4193ae37231b700625acf4f1e0a9766b1ed89ad9d176a496ca0387bfc424242cc91b164cb356e5
   languageName: node
   linkType: hard
 
