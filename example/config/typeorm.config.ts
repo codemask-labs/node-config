@@ -1,6 +1,8 @@
 import { IsBoolean, IsEnum, IsInt, IsString } from 'class-validator'
 import { TypeormConnection } from 'example/enums'
+import { Config } from 'lib/decorators'
 
+@Config()
 export class TypeormConfig {
     @IsEnum(TypeormConnection)
     readonly TYPEORM_CONNECTION: TypeormConnection
@@ -22,4 +24,7 @@ export class TypeormConfig {
 
     @IsBoolean()
     readonly TYPEORM_LOGGING: boolean
+
+    @IsBoolean()
+    readonly TYPEORM_DEBUG: boolean
 }

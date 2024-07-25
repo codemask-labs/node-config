@@ -1,5 +1,9 @@
 import { IsInt, IsOptional, IsString } from 'class-validator'
+import { Config } from 'lib/decorators'
+import { useConfig } from 'lib/hooks'
+import { NodeConfig } from './node.config'
 
+@Config()
 export class HttpConfig {
     @IsOptional()
     @IsInt()
@@ -9,7 +13,13 @@ export class HttpConfig {
     @IsString()
     readonly HTTP_SERVICE_HOST: string = '0.0.0.0'
 
+    constructor(private readonly node: NodeConfig) {
+        console.log('node:', node)
+    }
+
     getHttpServicePort() {
         return this.HTTP_SERVICE_PORT
     }
 }
+
+const test = useConfig(HttpConfig)

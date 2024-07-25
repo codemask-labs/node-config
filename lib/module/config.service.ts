@@ -1,39 +1,37 @@
 import { validateSync } from 'class-validator'
 import { plainToInstance } from 'class-transformer'
-import { Inject, Injectable, Logger } from '@nestjs/common'
+import { Inject, Injectable, Logger, OnApplicationBootstrap, OnModuleInit } from '@nestjs/common'
 import { ConfigServiceError } from './errors'
 import { ConfigServiceException } from './exceptions'
 import { Class, ConfigMap, Flatten, UnionToIntersection } from './types'
-import { getInstanceProperties } from './utils'
+import { GLOBAL_CONFIG_MAP } from './constants'
 
 @Injectable()
 export class ConfigService {
     private readonly logger = new Logger(ConfigService.name)
 
     constructor(
-        @Inject('GLOBAL_CONFIG_MAP')
-        private readonly configs: ConfigMap,
-        @Inject('GLOBAL_ENVIRONMENT_VARIABLES')
-        private readonly envs: Record<string, string>
+        @Inject(GLOBAL_CONFIG_MAP)
+        private readonly features: ConfigMap
     ) {}
 
-    add(providers: Array<Class>) {
-        providers.forEach(provider => {
-            if (!this.configs.has(provider)) {
-                const instance = plainToInstance(provider, this.envs, {
-                    enableImplicitConversion: true,
-                    exposeDefaultValues: true
-                })
+    // add(providers: Array<Class>) {
+    //     providers.forEach(provider => {
+    //         if (!this.configs.has(provider)) {
+    //             const instance = plainToInstance(provider, this.envs, {
+    //                 enableImplicitConversion: true,
+    //                 exposeDefaultValues: true
+    //             })
 
-                this.configs.set(provider, instance)
-            }
-        })
+    //             this.configs.set(provider, instance)
+    //         }
+    //     })
 
-        return this
-    }
+    //     return this
+    // }
 
     get<Config>(provider: Class<Config>) {
-        const config = this.configs.get(provider)
+        const config = this.features.get(provider)
 
         if (!config) {
             throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
@@ -43,7 +41,7 @@ export class ConfigService {
     }
 
     value<Config, Key extends keyof Config>(provider: Class<Config>, key: Key, defaultValue?: Config[Key]) {
-        const config = this.configs.get(provider)
+        const config = this.features.get(provider)
 
         if (!config) {
             throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
@@ -52,25 +50,25 @@ export class ConfigService {
         return defaultValue || (config[key] as Config[typeof key])
     }
 
-    values<Providers extends Array<Class>>(...providers: Providers) {
-        return providers.reduce((values, provider) => {
-            const config = this.configs.get(provider)
+    // values<Providers extends Array<Class>>(...providers: Providers) {
+    //     return providers.reduce((values, provider) => {
+    //         const config = this.configs.get(provider)
 
-            if (!config) {
-                throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
-            }
+    //         if (!config) {
+    //             throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
+    //         }
 
-            const properties = getInstanceProperties(config)
+    //         const properties = getInstanceProperties(config)
 
-            return {
-                ...values,
-                ...properties
-            }
-        }, {}) as UnionToIntersection<Flatten<Providers>>
-    }
+    //         return {
+    //             ...values,
+    //             ...properties
+    //         }
+    //     }, {}) as UnionToIntersection<Flatten<Providers>>
+    // }
 
     override<Config>(provider: Class<Config>, overrides?: Partial<Config>) {
-        const config = this.configs.get(provider)
+        const config = this.features.get(provider)
 
         if (!config) {
             throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
@@ -82,7 +80,7 @@ export class ConfigService {
 
     validate<Config>(providers: Array<Class<Config>>) {
         const validations = providers.map(provider => {
-            const config = this.configs.get(provider)
+            const config = this.features.get(provider)
 
             if (!config) {
                 throw new ConfigServiceException(`${ConfigServiceError.CONFIG_NOT_FOUND}: [class ${provider.name}]`)
@@ -117,6 +115,6 @@ export class ConfigService {
     }
 
     getConfigs() {
-        return this.configs
+        return this.features
     }
 }
