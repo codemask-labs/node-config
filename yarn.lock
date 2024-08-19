@@ -510,7 +510,7 @@ __metadata:
     "@commitlint/config-conventional": "npm:18.1.0"
     "@nestjs/cli": "npm:10.2.0"
     "@nestjs/common": "npm:10.2.7"
-    "@nestjs/core": "npm:10.2.7"
+    "@nestjs/core": "npm:10.4.1"
     "@nestjs/platform-express": "npm:10.2.7"
     "@nestjs/testing": "npm:10.2.7"
     "@nestjs/typeorm": "npm:10.0.0"
@@ -1073,22 +1073,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:10.2.7":
-  version: 10.2.7
-  resolution: "@nestjs/core@npm:10.2.7"
+"@nestjs/core@npm:10.4.1":
+  version: 10.4.1
+  resolution: "@nestjs/core@npm:10.4.1"
   dependencies:
     "@nuxtjs/opencollective": "npm:0.3.2"
     fast-safe-stringify: "npm:2.1.1"
     iterare: "npm:1.2.1"
     path-to-regexp: "npm:3.2.0"
-    tslib: "npm:2.6.2"
+    tslib: "npm:2.6.3"
     uid: "npm:2.0.2"
   peerDependencies:
     "@nestjs/common": ^10.0.0
     "@nestjs/microservices": ^10.0.0
     "@nestjs/platform-express": ^10.0.0
     "@nestjs/websockets": ^10.0.0
-    reflect-metadata: ^0.1.12
+    reflect-metadata: ^0.1.12 || ^0.2.0
     rxjs: ^7.1.0
   peerDependenciesMeta:
     "@nestjs/microservices":
@@ -1097,7 +1097,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: e455591fae728a935f334cf388263882acba64e6fce928c1b6b7e76ed7f0a38024d2523011502e77f2b4635c32761f6b10911f735cee20702442fab3688fa491
+  checksum: 57be2fc7617041558e90a92ec7c6f1011ed2bab8bfe5c5c02db5f5a03115e5e7347c06be0117767ce7d6c748fbe81ff075fc50190c998d30bbf25fd20e6f4ab8
   languageName: node
   linkType: hard
 
@@ -9365,6 +9365,13 @@ __metadata:
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb
+  languageName: node
+  linkType: hard
+
+"tslib@npm:2.6.3":
+  version: 2.6.3
+  resolution: "tslib@npm:2.6.3"
+  checksum: 2598aef53d9dbe711af75522464b2104724d6467b26a60f2bdac8297d2b5f1f6b86a71f61717384aa8fd897240467aaa7bcc36a0700a0faf751293d1331db39a
   languageName: node
   linkType: hard
 
