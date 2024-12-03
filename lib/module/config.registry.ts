@@ -1,4 +1,3 @@
-// import { config as dotenv } from 'dotenv'
 import { ClassTransformOptions } from 'class-transformer'
 import { Class } from './types'
 import { CONFIG_WATERMARK } from './constants'
@@ -6,6 +5,7 @@ import { CONFIG_WATERMARK } from './constants'
 type RegisteredConfig = {
     dependencies: Array<Class>
     transformOptions?: ClassTransformOptions
+    instance: null | object
 }
 
 export class ConfigRegistry {
@@ -18,13 +18,12 @@ export class ConfigRegistry {
 
         const dependencies: Array<Class> = Reflect.getMetadata('design:paramtypes', config) || []
 
-        console.log('params:', dependencies)
-
         Reflect.defineMetadata(CONFIG_WATERMARK, true, config)
 
         this.registered.set(config, {
             dependencies,
-            transformOptions
+            transformOptions,
+            instance: null
         })
 
         // const { parsed = {} } = dotenv({
@@ -62,5 +61,5 @@ export class ConfigRegistry {
         // this.instances.set(config, instance)
     }
 
-    static getInstances(features: Array<Class>) {}
+    // static getInstances(features: Array<Class>) {}
 }

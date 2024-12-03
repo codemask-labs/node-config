@@ -1,2 +1,2 @@
 export * from './config.decorator'
-export * from './var.decorator'
+export * from './env.decorator'
