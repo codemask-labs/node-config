@@ -1,6 +1,6 @@
 import { setupNestApplication } from 'lib/test'
+import { useConfig, useConfigs } from 'lib/hooks'
 import { HttpConfig, NodeConfig } from 'example/config'
-import { ConfigService } from './config.service'
 import { ConfigModule } from './config.module'
 
 describe('ConfigService', () => {
@@ -9,6 +9,10 @@ describe('ConfigService', () => {
     })
 
     it('gets and returns values of classes', () => {
+        const config = useConfig(NodeConfig)
+        const configs = useConfigs(NodeConfig, HttpConfig)
+
+        // config
         // const values = app.get(ConfigService).values(NodeConfig, HttpConfig)
 
         // expect(values.getHttpServicePort()).toBe(3000)

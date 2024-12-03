@@ -1,4 +1,5 @@
 import { Class } from 'lib/common'
+import { Constructors, Reduce } from 'lib/module'
 
-export const useConfig = <T, R>(config: Class<T>, pick?: (config: T) => R): typeof pick extends undefined ? T : R =>
-    pick ? pick(new config()) : new config()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+export const useConfig = <T extends Class<any>>(config: T) => ({}) as Reduce<Constructors<[T]>>

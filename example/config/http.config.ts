@@ -1,6 +1,5 @@
 import { IsInt, IsOptional, IsString } from 'class-validator'
 import { Config } from 'lib/decorators'
-import { useConfig } from 'lib/hooks'
 import { NodeConfig } from './node.config'
 
 @Config()
@@ -21,5 +20,3 @@ export class HttpConfig {
         return this.HTTP_SERVICE_PORT
     }
 }
-
-const test = useConfig(HttpConfig)
