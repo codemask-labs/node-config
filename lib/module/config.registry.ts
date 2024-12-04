@@ -4,6 +4,7 @@ import { CONFIG_WATERMARK } from './constants'
 
 type RegisteredConfig = {
     dependencies: Array<Class>
+    resolvedDependencies: Array<object | null>
     transformOptions?: ClassTransformOptions
     instance: null | object
 }
@@ -22,44 +23,9 @@ export class ConfigRegistry {
 
         this.registered.set(config, {
             dependencies,
+            resolvedDependencies: dependencies.map(() => null),
             transformOptions,
             instance: null
         })
-
-        // const { parsed = {} } = dotenv({
-        //     processEnv: {}
-        // })
-
-        // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        // const injected = [] as Array<any>
-
-        // const config = new config(...injected)
-        // const properties = Object.getOwnPropertyNames(config)
-        // const variables = { ...process.env, ...parsed }
-
-        // console.log('parsed:', parsed)
-        // console.log('properties:', properties)
-
-        // const instanceVariables = !properties.length
-        //     ? variables
-        //     : properties.reduce(
-        //           (result, key) => ({
-        //               ...result,
-        //               [key]: variables[key]
-        //           }),
-        //           {}
-        //       )
-
-        // console.log('instance variables:', instanceVariables)
-
-        // const instance = plainToClass(config, instanceVariables, {
-        //     enableImplicitConversion: true,
-        //     exposeDefaultValues: true,
-        //     ...options
-        // })
-
-        // this.instances.set(config, instance)
     }
-
-    // static getInstances(features: Array<Class>) {}
 }
