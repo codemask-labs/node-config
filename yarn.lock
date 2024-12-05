@@ -525,6 +525,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:6.9.0"
     "@typescript-eslint/eslint-plugin-tslint": "npm:6.9.0"
     "@typescript-eslint/parser": "npm:6.9.0"
+    chalk: "npm:4.1.2"
     class-transformer: "npm:0.5.1"
     class-validator: "npm:0.14.0"
     dotenv: "npm:16.4.0"

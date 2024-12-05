@@ -1,6 +1,8 @@
-import { IsBoolean, IsEnum, IsInt, IsString } from 'class-validator'
+import { IsBoolean, IsEnum, IsInt, IsString, MaxLength } from 'class-validator'
 import { TypeormConnection } from 'example/enums'
 import { Config } from 'lib/decorators'
+import { NodeConfig } from './node.config'
+import { Transform } from 'class-transformer'
 
 @Config()
 export class TypeormConfig {
@@ -17,6 +19,7 @@ export class TypeormConfig {
     readonly TYPEORM_DATABASE: string
 
     @IsString()
+    @MaxLength(100)
     readonly TYPEORM_USERNAME: string
 
     @IsString()
@@ -26,5 +29,10 @@ export class TypeormConfig {
     readonly TYPEORM_LOGGING: boolean
 
     @IsBoolean()
+    @Transform(({ value }) => value === 'true')
     readonly TYPEORM_DEBUG: boolean
+
+    constructor(readonly nodeConfig: NodeConfig) {
+        console.log('node config:', nodeConfig)
+    }
 }

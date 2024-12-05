@@ -1,3 +1,5 @@
+import { ClassTransformOptions } from 'class-transformer'
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Class<TConstructor = any> = new (...args: Array<any>) => TConstructor
 
@@ -20,3 +22,12 @@ export type Constructors<T extends Array<any>> = {
 
 // eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-explicit-any
 export type Reduce<T extends Array<any>> = T extends [infer U, ...infer Rest] ? U & Reduce<Rest> : {}
+
+export type RegisteredConfig = {
+    constructor: Class
+    dependencies: Array<Class>
+    resolvedDependencies: Array<null | object>
+    propertyNameTranslations: Record<string, string>
+    transformOptions?: ClassTransformOptions
+    instance: null | object
+}

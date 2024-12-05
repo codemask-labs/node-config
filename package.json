@@ -43,6 +43,7 @@
     "class-validator": "*"
   },
   "dependencies": {
+    "chalk": "4.1.2",
     "dotenv": "16.4.0",
     "ramda": "0.29.1"
   },

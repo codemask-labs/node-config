@@ -4,11 +4,7 @@ import { useConfig } from 'lib/hooks'
 
 @Injectable()
 export class MailerService implements OnApplicationBootstrap {
-    private readonly config: MailerConfig
-
-    constructor() {
-        this.config = useConfig(MailerConfig)
-    }
+    private readonly config = useConfig(MailerConfig)
 
     onApplicationBootstrap() {
         console.debug('mailer config:', this.config)

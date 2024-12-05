@@ -12,7 +12,7 @@ export class HttpConfig {
     @IsString()
     readonly HTTP_SERVICE_HOST: string = '0.0.0.0'
 
-    constructor(private readonly node: NodeConfig) {
+    constructor(readonly node: NodeConfig) {
         console.log('node:', node)
     }
 

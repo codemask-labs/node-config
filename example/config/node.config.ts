@@ -6,9 +6,5 @@ import { NodeEnv } from 'example/enums'
 export class NodeConfig {
     @IsEnum(NodeEnv)
     @Env('NODE_ENV')
-    readonly nodeEnv: NodeEnv
-
-    getHelloWorld() {
-        return 'hello world'
-    }
+    readonly environment: NodeEnv
 }
