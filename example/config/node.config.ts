@@ -7,4 +7,8 @@ export class NodeConfig {
     @IsEnum(NodeEnv)
     @Env('NODE_ENV')
     readonly environment: NodeEnv
+
+    getNodeEnv() {
+        return this.environment
+    }
 }

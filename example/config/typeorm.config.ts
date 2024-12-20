@@ -1,8 +1,8 @@
+import { Transform } from 'class-transformer'
 import { IsBoolean, IsEnum, IsInt, IsString, MaxLength } from 'class-validator'
 import { TypeormConnection } from 'example/enums'
 import { Config } from 'lib/decorators'
 import { NodeConfig } from './node.config'
-import { Transform } from 'class-transformer'
 
 @Config()
 export class TypeormConfig {
