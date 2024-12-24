@@ -1,2 +1,3 @@
-export * from './config.service'
-export * from './config.module'
+export * from './types'
+export * from './constants'
+export * from './config.registry'

@@ -1,11 +1,14 @@
 import { IsEnum } from 'class-validator'
+import { Config, Env } from 'lib/decorators'
 import { NodeEnv } from 'example/enums'
 
+@Config()
 export class NodeConfig {
     @IsEnum(NodeEnv)
-    readonly NODE_ENV: NodeEnv
+    @Env('NODE_ENV')
+    readonly environment: NodeEnv
 
-    getTest() {
-        return 'hello world'
+    getNodeEnv() {
+        return this.environment
     }
 }

@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { ConfigModule, ConfigService } from 'lib/module'
 import { TypeormConfig } from 'example/config'
+import { useConfig } from 'lib/hooks'
 
 @Module({
     imports: [
-        ConfigModule.forFeature([TypeormConfig]),
         TypeOrmModule.forRootAsync({
-            inject: [ConfigService],
-            useFactory: (config: ConfigService) => {
-                const { TYPEORM_CONNECTION, TYPEORM_HOST, TYPEORM_PORT, TYPEORM_USERNAME, TYPEORM_PASSWORD, TYPEORM_DATABASE, TYPEORM_LOGGING } = config.get(TypeormConfig)
+            useFactory: () => {
+                const { TYPEORM_CONNECTION, TYPEORM_HOST, TYPEORM_PORT, TYPEORM_USERNAME, TYPEORM_PASSWORD, TYPEORM_DATABASE, TYPEORM_LOGGING } =
+                    useConfig(TypeormConfig)
 
                 return {
                     type: TYPEORM_CONNECTION,
