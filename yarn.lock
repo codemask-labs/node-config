@@ -557,9 +557,8 @@ __metadata:
     typeorm: "npm:0.3.20"
     typescript: "npm:5.2.2"
   peerDependencies:
-    "@nestjs/common": "*"
-    class-transformer: "*"
-    class-validator: "*"
+    class-transformer: ">=0.5.1"
+    class-validator: ">=0.14.0"
   languageName: unknown
   linkType: soft
 
