@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { TypeormConfig } from 'example/config'
-import { useConfig } from 'lib/hooks'
+import { getConfig } from 'lib/getters'
 
 @Module({
     imports: [
         TypeOrmModule.forRootAsync({
             useFactory: () => {
                 const { TYPEORM_CONNECTION, TYPEORM_HOST, TYPEORM_PORT, TYPEORM_USERNAME, TYPEORM_PASSWORD, TYPEORM_DATABASE, TYPEORM_LOGGING } =
-                    useConfig(TypeormConfig)
+                    getConfig(TypeormConfig)
 
                 return {
                     type: TYPEORM_CONNECTION,

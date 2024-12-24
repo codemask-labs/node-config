@@ -29,5 +29,6 @@ export type RegisteredConfig = {
     resolvedDependencies: Array<null | object>
     propertyNameTranslations: Record<string, string>
     transformOptions?: ClassTransformOptions
-    instance: null | object
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    instance: InstanceType<any> | null
 }
