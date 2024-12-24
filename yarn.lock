@@ -503,9 +503,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemaskjs/nestjs-config@workspace:.":
+"@codemask-labs/nestjs-config@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@codemaskjs/nestjs-config@workspace:."
+  resolution: "@codemask-labs/nestjs-config@workspace:."
   dependencies:
     "@commitlint/config-conventional": "npm:18.1.0"
     "@nestjs/cli": "npm:10.2.0"

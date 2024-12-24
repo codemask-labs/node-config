@@ -1,4 +1,5 @@
 import 'reflect-metadata'
 
-export * from './hooks'
+export * from './decorators'
+export * from './getters'
 export * from './module'

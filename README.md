@@ -1,4 +1,4 @@
-# Codemask Nestjs Config Module
+# Codemask Config Module
 
 ## How to Install
 
@@ -13,7 +13,7 @@ $ yarn add @nestjs/common class-validator class-transformer
 
 ### Adding package to your project
 ```bash
-$ yarn add @codemaskjs/nestjs-config
+$ yarn add @codemask-labs/config
 ```
 
 ## Configuration
@@ -24,7 +24,7 @@ For providing globally available configs, use the example from below:
 
 ```typescript
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@codemaskjs/nestjs-config'
+import { ConfigModule } from '@codemask-labs/config'
 
 @Module({
     imports: [

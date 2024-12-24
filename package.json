@@ -1,7 +1,7 @@
 {
-  "name": "@codemaskjs/nestjs-config",
-  "author": "Codemask <contact@codemask.com> (https://github.com/codemaskinc/nestjs-config)",
-  "repository": "https://github.com/codemaskinc/nestjs-config",
+  "name": "@codemask-labs/nestjs-config",
+  "author": "Codemask <contact@codemask.com> (https://github.com/codemask-labs/nestjs-config)",
+  "repository": "https://github.com/codemask-labs/nestjs-config",
   "license": "MIT",
   "version": "1.4.2",
   "description": "Nestjs Config Module",
@@ -99,7 +99,7 @@
     "LICENSE"
   ],
   "publishConfig": {
-    "@codemaskjs:registry": "https://registry.npmjs.org/",
+    "@codemask-labs:registry": "https://registry.npmjs.org/",
     "access": "public"
   }
 }

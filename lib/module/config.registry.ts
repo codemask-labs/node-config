@@ -1,6 +1,7 @@
+// eslint-disable-next-line max-classes-per-file
 import { configDotenv } from 'dotenv'
 import { isNotNil, reject } from 'ramda'
-import { ClassTransformOptions, instanceToPlain } from 'class-transformer'
+import { ClassTransformOptions, plainToInstance, TransformOptions } from 'class-transformer'
 import { getMetadataStorage, validateSync } from 'class-validator'
 import { isUndefined, toValueByType } from 'lib/utils'
 import { ValidationException } from 'lib/exceptions'
@@ -53,7 +54,7 @@ export class ConfigRegistry {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public static getConfigInstance<T extends Class<any>>(constructor: T) {
+    public static getConfigInstance<T extends Class<any>>(constructor: T, transformOptions?: TransformOptions): InstanceType<T> {
         const registeredDependency = this.registry.get(constructor)
 
         if (!registeredDependency) {
@@ -102,20 +103,51 @@ export class ConfigRegistry {
             {} as Record<string, any>
         )
 
-        const instance = new constructor(...resolvedDependencies)
+        /**
+         * Make the instance methods, auto-bindable to "this" reference so we can destruct the
+         * config instance. For example:
+         *
+         * const { getSomeValue } = getConfig(ExampleConfig)
+         *
+         * The `getSomeValue` method, can have a reference to "this" inside. Therefore unallowing us,
+         * for destructing such method of the config.
+         */
+
+        const descriptors = Object.getOwnPropertyDescriptors(constructor.prototype)
+        const descriptorNames = Object.keys(descriptors).filter(name => name !== 'constructor')
+        const unreferencedMethods = descriptorNames.reduce(
+            (result, name) => {
+                const descriptor = descriptors[name]
+
+                return {
+                    ...result,
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    [name]: (...args: Array<any>) => descriptor.value.apply(instance, args)
+                }
+            },
+            {} as Record<string, () => void>
+        )
+
+        class UnreferencedConstructor extends constructor {
+            public static readonly name = constructor.name
+
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+            constructor(...unusedArgs: Array<any>) {
+                super(...resolvedDependencies)
+            }
+        }
 
         // eslint-disable-next-line functional/immutable-data
-        Object.assign(instance, reject(isUndefined, transformedProperties))
+        Object.assign(UnreferencedConstructor.prototype, unreferencedMethods)
 
-        const transformedInstance = instanceToPlain(instance, {
+        const instance = plainToInstance(UnreferencedConstructor, transformedProperties, {
             exposeDefaultValues: true,
             enableImplicitConversion: true,
-            excludeExtraneousValues: false,
-            ...registeredDependency.transformOptions
+            ...transformOptions
         })
 
         // eslint-disable-next-line functional/immutable-data
-        Object.assign(instance, reject(isUndefined, transformedInstance))
+        Object.assign(instance, reject(isUndefined, transformedProperties))
 
         const validationErrors = validateSync(instance, {
             forbidUnknownValues: false,

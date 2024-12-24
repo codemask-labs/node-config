@@ -12,11 +12,13 @@ export class HttpConfig {
     @IsString()
     readonly HTTP_SERVICE_HOST: string = '0.0.0.0'
 
-    constructor(readonly node: NodeConfig) {
-        console.log('node:', node)
-    }
+    constructor(readonly node: NodeConfig) {}
 
     getHttpServicePort() {
         return this.HTTP_SERVICE_PORT
+    }
+
+    getNodeEnv() {
+        return this.node.getNodeEnv()
     }
 }
