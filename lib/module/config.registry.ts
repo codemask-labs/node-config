@@ -7,9 +7,9 @@ import { ValidationException } from 'lib/exceptions'
 import { Class, RegisteredConfig } from './types'
 
 export class ConfigRegistry {
-    static registry = new Map<Class, RegisteredConfig>()
+    public static readonly registry = new Map<Class, RegisteredConfig>()
 
-    static registerConfigDefaults(constructor: Class) {
+    public static registerConfigDefaults(constructor: Class) {
         if (!this.registry.has(constructor)) {
             const dependencies: Array<Class> = Reflect.getMetadata('design:paramtypes', constructor) || []
 
@@ -23,7 +23,7 @@ export class ConfigRegistry {
         }
     }
 
-    static registerConfigTransformOptions(constructor: Class, transformOptions?: ClassTransformOptions) {
+    public static registerConfigTransformOptions(constructor: Class, transformOptions?: ClassTransformOptions) {
         const current = this.registry.get(constructor)
 
         if (!current) {
@@ -36,7 +36,7 @@ export class ConfigRegistry {
         })
     }
 
-    static registerConfigTransformTranslations(constructor: Class, propertyName: string, environmentPropertyName: string) {
+    public static registerConfigTransformTranslations(constructor: Class, propertyName: string, environmentPropertyName: string) {
         const current = this.registry.get(constructor)
 
         if (!current) {
@@ -53,7 +53,7 @@ export class ConfigRegistry {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static getConfigInstance<T extends Class<any>>(constructor: T) {
+    public static getConfigInstance<T extends Class<any>>(constructor: T) {
         const registeredDependency = this.registry.get(constructor)
 
         if (!registeredDependency) {
@@ -71,20 +71,16 @@ export class ConfigRegistry {
                 throw new Error('Failed to find depndency alignment')
             }
 
-            return instance || this.getConfigInstance(dependency)
+            return instance ?? this.getConfigInstance(dependency)
         })
 
-        const { parsed: environmentVariables = {}, error } = configDotenv({
+        const { parsed: environmentVariables = {} } = configDotenv({
             override: false
         })
 
-        if (error) {
-            throw error
-        }
-
         const storage = getMetadataStorage()
         const metadatas = storage.getTargetValidationMetadatas(constructor, constructor.name, false, false)
-        const values = metadatas.reduce(
+        const transformedProperties = metadatas.reduce(
             (acc, { propertyName, target }) => {
                 if (acc[propertyName]) {
                     return acc
@@ -109,10 +105,9 @@ export class ConfigRegistry {
         const instance = new constructor(...resolvedDependencies)
 
         // eslint-disable-next-line functional/immutable-data
-        Object.assign(instance, reject(isUndefined, values))
+        Object.assign(instance, reject(isUndefined, transformedProperties))
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const transformedInstance: any = instanceToPlain(instance, {
+        const transformedInstance = instanceToPlain(instance, {
             exposeDefaultValues: true,
             enableImplicitConversion: true,
             excludeExtraneousValues: false,
@@ -134,22 +129,10 @@ export class ConfigRegistry {
             throw new ValidationException(constructor.name, validationErrors)
         }
 
-        const descriptors = Object.getOwnPropertyDescriptors(constructor.prototype)
-        const descriptorNames = Object.keys(descriptors).filter(name => name !== 'constructor')
         const config: RegisteredConfig = {
             ...registeredDependency,
             resolvedDependencies,
-            instance: {
-                ...transformedInstance,
-                ...descriptorNames.reduce(
-                    (acc, name) => ({
-                        ...acc,
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        [name]: (...args: Array<any>) => descriptors[name].value.apply(config.instance, args)
-                    }),
-                    {}
-                )
-            }
+            instance
         }
 
         this.registry.set(constructor, config)
