@@ -1,8 +1,13 @@
 {
-  "moduleFileExtensions": ["js", "ts"],
-  "modulePaths": ["<rootDir>", "lib"],
+  "moduleFileExtensions": [
+    "js",
+    "ts"
+  ],
+  "modulePaths": [
+    "<rootDir>",
+    "lib"
+  ],
   "rootDir": ".",
-  "setupFilesAfterEnv": ["<rootDir>/lib/test/jest.setup.ts"],
   "testRegex": ".spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "@swc/jest"

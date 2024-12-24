@@ -38,9 +38,8 @@
     "config"
   ],
   "peerDependencies": {
-    "@nestjs/common": "*",
-    "class-transformer": "*",
-    "class-validator": "*"
+    "class-transformer": ">=0.5.1",
+    "class-validator": ">=0.14.0"
   },
   "dependencies": {
     "chalk": "4.1.2",
