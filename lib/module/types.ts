@@ -26,7 +26,8 @@ export type Reduce<T extends Array<any>> = T extends [infer U, ...infer Rest] ? 
 export type RegisteredConfig = {
     constructor: Class
     dependencies: Array<Class>
-    resolvedDependencies: Array<null | object>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolvedDependencies: Array<null | InstanceType<any>>
     propertyNameTranslations: Record<string, string>
     transformOptions?: ClassTransformOptions
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
