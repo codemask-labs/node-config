@@ -1,9 +1,9 @@
 // eslint-disable-next-line max-classes-per-file
 import { configDotenv } from 'dotenv'
-import { isNotNil, reject } from 'ramda'
+import { isNotNil } from 'ramda'
 import { ClassTransformOptions, plainToInstance, TransformOptions } from 'class-transformer'
 import { getMetadataStorage, validateSync } from 'class-validator'
-import { isUndefined, toValueByType } from 'lib/utils'
+import { toValueByType } from 'lib/utils'
 import { ValidationException } from 'lib/exceptions'
 import { Class, RegisteredConfig } from './types'
 
@@ -58,7 +58,7 @@ export class ConfigRegistry {
         const registeredDependency = this.registry.get(constructor)
 
         if (!registeredDependency) {
-            throw new Error(`Config is not properly registered`)
+            throw new Error(`Failed to find registered config. Make sure to decorate a class with @Config()!`)
         }
 
         if (registeredDependency.instance) {
@@ -69,7 +69,7 @@ export class ConfigRegistry {
             const dependency = registeredDependency.dependencies.at(index)
 
             if (!dependency) {
-                throw new Error('Failed to find depndency alignment')
+                throw new Error(`Failed to resolve dependency for [${constructor.name}] at index: ${index}`)
             }
 
             return instance ?? this.getConfigInstance(dependency)
@@ -128,7 +128,7 @@ export class ConfigRegistry {
             {} as Record<string, () => void>
         )
 
-        class UnreferencedConstructor extends constructor {
+        class ConfigConstructorWrapper extends constructor {
             public static readonly name = constructor.name
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
@@ -138,16 +138,13 @@ export class ConfigRegistry {
         }
 
         // eslint-disable-next-line functional/immutable-data
-        Object.assign(UnreferencedConstructor.prototype, unreferencedMethods)
+        Object.assign(ConfigConstructorWrapper.prototype, unreferencedMethods)
 
-        const instance = plainToInstance(UnreferencedConstructor, transformedProperties, {
+        const instance = plainToInstance(ConfigConstructorWrapper, transformedProperties, {
             exposeDefaultValues: true,
             enableImplicitConversion: true,
             ...transformOptions
         })
-
-        // eslint-disable-next-line functional/immutable-data
-        Object.assign(instance, reject(isUndefined, transformedProperties))
 
         const validationErrors = validateSync(instance, {
             forbidUnknownValues: false,

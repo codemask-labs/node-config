@@ -1,4 +1,4 @@
-import { yellow, red, gray } from 'chalk'
+import { yellow, red, gray, blue } from 'chalk'
 import { ValidationError } from 'class-validator'
 
 export class ValidationException extends Error {
@@ -8,7 +8,7 @@ export class ValidationException extends Error {
                 const [constraint] = Object.values(error.constraints ?? {})
                 const message = constraint || `${error.property} failed for unknown reason or constraint`
 
-                return gray(`- ${message}`)
+                return gray(`- ${message} ${blue(`(was: ${error.value || 'undefined'})`)}`)
             })
             .join('\r\n')
 
