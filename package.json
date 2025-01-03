@@ -1,10 +1,10 @@
 {
-  "name": "@codemask-labs/nestjs-config",
-  "author": "Codemask <contact@codemask.com> (https://github.com/codemask-labs/nestjs-config)",
-  "repository": "https://github.com/codemask-labs/nestjs-config",
+  "name": "@codemask-labs/node-config",
+  "author": "Codemask <contact@codemask.com> (https://github.com/codemask-labs/node-config)",
+  "repository": "https://github.com/codemask-labs/node-config",
   "license": "MIT",
   "version": "1.4.2",
-  "description": "Nestjs Config Module",
+  "description": "Node Config Module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "commonjs",
@@ -33,7 +33,7 @@
     "update": "yarn upgrade-interactive"
   },
   "keywords": [
-    "nestjs",
+    "node",
     "typesafe",
     "config"
   ],
