@@ -44,7 +44,7 @@ yarn add @codemask-labs/node-config
 ### npm
 
 ```bash
-yarn add @codemask-labs/node-config
+npm install @codemask-labs/node-config
 ```
 
 ## API
