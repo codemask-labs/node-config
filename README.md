@@ -1,6 +1,6 @@
 # Node Config
 
-A utility library designed to simplify configuration management in TypeScript and Node.js applications. This library includes powerful decorators, validation features, and the `getConfig` function to effortlessly integrate and validate application configurations.
+A utility library designed to simplify configuration management in TypeScript and Node.js applications. This library includes powerful decorators, validation features, and utils to effortlessly integrate and validate application configurations.
 
 ## Features
 
@@ -38,13 +38,13 @@ A utility library designed to simplify configuration management in TypeScript an
 ### yarn
 
 ```bash
-yarn add @codemask-labs/node-config
+yarn add @codemask-labs/node-config class-validator class-transformer
 ```
 
 ### npm
 
 ```bash
-npm install @codemask-labs/node-config
+npm install @codemask-labs/node-config class-validator class-transformer
 ```
 
 ## API
@@ -77,6 +77,20 @@ Retrieves and validates an instance of the configuration class, and passed throu
 
 #### Returns
 - An value constructed by  of the validated configuration class.
+
+### Env decorator
+
+```typescript
+declare function Env(propertyName: string): MethodDecorator
+```
+
+Maps process environment to class property by name, useful when you need to validate or transform environment variable and map it to other casing.
+
+#### Parameters
+- propertyName: The usually `process.env` key to a value
+
+#### Retruns
+- An class property decorator that can be used within a @Config decorated class.
 
 ## Usage
 
@@ -174,6 +188,35 @@ import { TypeormConfig } from 'example/config';
     ],
 })
 export class UsersModule {}
+```
+
+### Injecting other configurations to a single class
+
+```typescript
+import { NodeEnv } from 'example/enums';
+
+export class NodeConfig {
+    @IsEnum(NodeEnv)
+    @Env('NODE_ENV') // reads it from `process.env`, and maps it to your class property `environment`
+    readonly environment: NodeEnv;
+}
+```
+
+```typescript
+import { NodeConfig } from 'example/config';
+
+export class TypeormConfig {
+    constructor(readonly nodeConfig: NodeConfig) {}
+}
+```
+
+```typescript
+import { TypeormConfig } from 'example/config';
+
+const config = getConfig(TypeormConfig); // Transforms and validates `NodeConfig` as dependency, then transforms and validates `TypeormConfig`, returns instance.
+
+console.log(config.nodeConfig.environment); // Outputs the validated and transformed value of `NODE_ENV`
+
 ```
 
 ## License
