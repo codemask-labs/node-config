@@ -49,7 +49,7 @@ npm install @codemask-labs/node-config
 
 ## API
 
-### getConfig(configClass: ClassType): ConfigInstance
+### getConfig
 
 ```typescript
 declare function getConfig(configClass: ClassType): ConfigInstance
@@ -63,7 +63,7 @@ Retrieves and validates an instance of the configuration class.
 #### Returns
 - An instance of the validated configuration class.
 
-### getConfigValue(configClass: ClassType, getter: <U>(config: ClassType) => U): ConfigInstance
+### getConfigValue
 
 ```typescript
 declare function getConfigValue<T extends ClassType, U>(configClass: T, getter: (config: T) => U): U
@@ -77,12 +77,6 @@ Retrieves and validates an instance of the configuration class, and passed throu
 
 #### Returns
 - An value constructed by  of the validated configuration class.
-
-#### Parameters
-- configClass: The configuration class with `@Config` and validation decorators applied.
-
-#### Returns
-- An instance of the validated configuration class.
 
 ## Usage
 
