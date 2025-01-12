@@ -1,6 +1,6 @@
 import { IsEnum } from 'class-validator'
-import { Config, Env } from 'lib/decorators'
 import { NodeEnv } from 'example/enums'
+import { Config, Env } from 'lib/decorators'
 
 @Config()
 export class NodeConfig {

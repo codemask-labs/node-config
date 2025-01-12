@@ -32,7 +32,5 @@ export class TypeormConfig {
     @Transform(({ value }) => value === 'true')
     readonly TYPEORM_DEBUG: boolean
 
-    constructor(readonly nodeConfig: NodeConfig) {
-        console.log('node config:', nodeConfig)
-    }
+    constructor(readonly node: NodeConfig) {}
 }
