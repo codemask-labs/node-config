@@ -1,6 +1,6 @@
 # Node Config
 
-A utility library designed to simplify configuration management in TypeScript and Node.js applications. This library includes powerful decorators, validation features, and the `getConfig` function to effortlessly integrate and validate application configurations.
+A utility library designed to simplify configuration management in TypeScript and Node.js applications. This library includes powerful decorators, validation features, and utils to effortlessly integrate and validate application configurations.
 
 ## Features
 
