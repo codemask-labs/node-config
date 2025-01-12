@@ -215,7 +215,7 @@ import { TypeormConfig } from 'example/config';
 
 const config = getConfig(TypeormConfig); // Transforms and validates `NodeConfig` as dependency, then transforms and validates `TypeormConfig`, returns instance.
 
-console.log(config.nodeConfig.environment); // Outputs the value of `NODE_ENV`
+console.log(config.nodeConfig.environment); // Outputs the validated and transformed value of `NODE_ENV`
 
 ```
 
