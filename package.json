@@ -33,9 +33,25 @@
     "update": "yarn upgrade-interactive"
   },
   "keywords": [
-    "node",
-    "typesafe",
-    "config"
+    "codemask-labs",
+    "config-management",
+    "typescript",
+    "nodejs",
+    "class-validator",
+    "class-transformer",
+    "dotenv",
+    "nestjs",
+    "configuration",
+    "env-variables",
+    "type-safe",
+    "validation",
+    "decorators",
+    "dependency-injection",
+    "nestjs-config",
+    "environment-variables",
+    "runtime-validation",
+    "node-config",
+    "strongly-typed"
   ],
   "peerDependencies": {
     "class-transformer": ">=0.5.1",
