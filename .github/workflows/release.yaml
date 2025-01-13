@@ -1,6 +1,25 @@
 name: Release
 on:
   workflow_dispatch:
+    inputs:
+      release-branch:
+        type: choice
+        description: To which branch you want to release
+        default: main
+        options:
+          - main
+          - beta
+          - rc
+      dry-run:
+        type: boolean
+        description: 'Dry run'
+        required: true
+        default: true
+      no-npm:
+        type: boolean
+        description: 'Skip push to npm'
+        required: true
+        default: false
 
 jobs:
   release:
@@ -36,3 +55,6 @@ jobs:
           git-user: 'Codemask'
           git-email: 'contact@codemask.com'
           git-token: '${{ secrets.GITHUB_TOKEN }}'
+          release-branch: ${{ inputs.release-branch }}
+          dry-run: ${{ inputs.dry-run }}
+          no-npm: ${{ inputs.no-npm }}
