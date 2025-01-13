@@ -1,4 +1,26 @@
+# Changelog
 
+## [2.0.0](https://github.com/codemask-labs/node-config/compare/1.4.2...2.0.0) (2025-01-13)
+
+### ⚠ BREAKING CHANGES
+
+* version 2
+
+### Features
+
+* added manual version input ([45b91e3](https://github.com/codemask-labs/node-config/commit/45b91e36f43316ee431146132e147781ef319a79))
+* added release inputs ([3cd81fb](https://github.com/codemask-labs/node-config/commit/3cd81fbd5c8150ffcc7a441bbdbb38710dc38a6a))
+* unreferenced methods ([c374581](https://github.com/codemask-labs/node-config/commit/c3745818a15cb90c462037a19f4853a11fc3d979))
+* updated readme ([e2d9473](https://github.com/codemask-labs/node-config/commit/e2d9473115f5f078d2c6fa4ba79b35525a8a6997))
+* updated release action ([c20d657](https://github.com/codemask-labs/node-config/commit/c20d65745bd7c7cb0bd395fa5b0dd95aa13b01d1))
+* updated yarn ([d2f6497](https://github.com/codemask-labs/node-config/commit/d2f64970dd66f407cd3e8e4f1507b7f36ea26bb2))
+* version 2 ([7330944](https://github.com/codemask-labs/node-config/commit/7330944cc4649694195c0921196d77ec0c9b33bf))
+
+### Bug Fixes
+
+* jest ([17f8cde](https://github.com/codemask-labs/node-config/commit/17f8cdebdce0adb3e5d04337e0519a2fb5cdd224))
+* tests ([9c13d5e](https://github.com/codemask-labs/node-config/commit/9c13d5e5cbd0c65cfebe8026eddbbc3de2a8271f))
+* yarn.lock ([2538bcf](https://github.com/codemask-labs/node-config/commit/2538bcfe24fc2f20e20a571e3dc0cdde9f977c39))
 
 ## [1.4.2](https://github.com/codemaskinc/nestjs-config/compare/1.4.1...1.4.2) (2024-06-21)
 
