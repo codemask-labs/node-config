@@ -20,6 +20,9 @@ on:
         description: 'Skip push to npm'
         required: true
         default: false
+      manual-version:
+        type: string
+        description: 'Manual version'
 
 jobs:
   release:
@@ -58,3 +61,4 @@ jobs:
           release-branch: ${{ inputs.release-branch }}
           dry-run: ${{ inputs.dry-run }}
           no-npm: ${{ inputs.no-npm }}
+          manual-version: ${{ inputs.manual-version }}
