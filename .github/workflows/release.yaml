@@ -31,7 +31,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Run Release it Action
-        uses: codemask-labs/release-it-action@v1.1.0
+        uses: codemask-labs/release-it@v1.1.0
         with:
           git-user: 'Codemask'
           git-email: 'contact@codemask.com'
