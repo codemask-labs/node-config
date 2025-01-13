@@ -1,25 +1,40 @@
 name: Release
 on:
   workflow_dispatch:
-
-permissions:
-  contents: read # for checkout
+    inputs:
+      release-branch:
+        type: choice
+        description: To which branch you want to release
+        default: main
+        options:
+          - main
+          - beta
+          - rc
+      dry-run:
+        type: boolean
+        description: 'Dry run'
+        required: true
+        default: true
+      no-npm:
+        type: boolean
+        description: 'Skip push to npm'
+        required: true
+        default: false
+      manual-version:
+        type: string
+        description: 'Manual version'
 
 jobs:
   release:
-    name: Release
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 5
     permissions:
       contents: write
-      issues: write
-      pull-requests: write
-      id-token: write
     env:
       HUSKY: 0
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
 
@@ -32,18 +47,18 @@ jobs:
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
 
-      - name: Init Git user
-        run: |
-          git config --global user.email "contact@codemask.com"
-          git config --global user.name "Codemask"
-
       - name: Init NPM configuration
         run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Release
-        run: yarn dlx -p release-it -p @release-it/conventional-changelog release-it --ci
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Release it Action
+        uses: codemask-labs/release-it@v1.1.0
+        with:
+          git-user: 'Codemask'
+          git-email: 'contact@codemask.com'
+          git-token: '${{ secrets.GITHUB_TOKEN }}'
+          release-branch: ${{ inputs.release-branch }}
+          dry-run: ${{ inputs.dry-run }}
+          no-npm: ${{ inputs.no-npm }}
+          manual-version: ${{ inputs.manual-version }}
