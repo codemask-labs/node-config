@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.1](https://github.com/codemask-labs/node-config/compare/2.0.0...2.0.1) (2025-01-14)
+
+### Bug Fixes
+
+* release action ([bf00377](https://github.com/codemask-labs/node-config/commit/bf00377ad26f29cc9f49bc57b1a7f7ca683e3296))
+
 ## [2.0.0](https://github.com/codemask-labs/node-config/compare/1.4.2...2.0.0) (2025-01-13)
 
 ### ⚠ BREAKING CHANGES
