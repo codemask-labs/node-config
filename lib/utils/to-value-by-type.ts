@@ -2,7 +2,7 @@
 export const toValueByType = (type: any, value: string) => {
     switch (type) {
         case Boolean: {
-            return value === 'true' || Boolean(value)
+            return Boolean(value === 'true' || value === '1')
         }
 
         case Number: {
