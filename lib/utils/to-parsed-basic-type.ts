@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const toValueByType = (type: any, value: string) => {
+export const toParsedBasicType = (type: any, value: string) => {
     switch (type) {
         case Boolean: {
-            return value === 'true' || Boolean(value)
+            return Boolean(value === 'true')
         }
 
         case Number: {

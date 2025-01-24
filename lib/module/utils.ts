@@ -3,7 +3,7 @@ import { getMetadataStorage, validateSync } from 'class-validator'
 import { configDotenv } from 'dotenv'
 import { isNotNil } from 'ramda'
 import { ValidationException } from 'lib/exceptions'
-import { toValueByType } from 'lib/utils'
+import { toParsedBasicType } from 'lib/utils'
 import { Class, RegisteredConfig } from './types'
 import { registry } from './constants'
 
@@ -94,7 +94,7 @@ export const getConfigInstance = <T extends Class>(base: T, transformOptions?: T
 
             return {
                 ...acc,
-                [propertyName]: isNotNil(value) ? toValueByType(type, value) : value
+                [propertyName]: isNotNil(value) ? toParsedBasicType(type, value) : value
             }
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

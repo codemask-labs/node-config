@@ -1,1 +1,1 @@
-export * from './to-value-by-type'
+export * from './to-parsed-basic-type'
