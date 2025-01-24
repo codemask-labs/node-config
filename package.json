@@ -73,7 +73,7 @@
     "@nestjs/common": "11.0.5",
     "@nestjs/core": "11.0.1",
     "@nestjs/platform-express": "10.4.15",
-    "@nestjs/typeorm": "10.0.2",
+    "@nestjs/typeorm": "11.0.0",
     "@types/jest": "29.5.14",
     "@types/node": "22.10.5",
     "@types/pg": "8.11.10",
