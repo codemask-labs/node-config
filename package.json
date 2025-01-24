@@ -3,7 +3,7 @@
   "author": "Codemask <contact@codemask.com> (https://github.com/codemask-labs/node-config)",
   "repository": "https://github.com/codemask-labs/node-config",
   "license": "MIT",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Node Config Module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
