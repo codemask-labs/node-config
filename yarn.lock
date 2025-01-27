@@ -439,7 +439,7 @@ __metadata:
     "@commitlint/config-conventional": "npm:19.6.0"
     "@nestjs/cli": "npm:10.4.9"
     "@nestjs/common": "npm:11.0.5"
-    "@nestjs/core": "npm:11.0.1"
+    "@nestjs/core": "npm:11.0.5"
     "@nestjs/platform-express": "npm:10.4.15"
     "@nestjs/typeorm": "npm:11.0.0"
     "@types/jest": "npm:29.5.14"
@@ -1033,9 +1033,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:11.0.1":
-  version: 11.0.1
-  resolution: "@nestjs/core@npm:11.0.1"
+"@nestjs/core@npm:11.0.5":
+  version: 11.0.5
+  resolution: "@nestjs/core@npm:11.0.5"
   dependencies:
     "@nuxt/opencollective": "npm:0.4.1"
     fast-safe-stringify: "npm:2.1.1"
@@ -1057,7 +1057,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: 10c0/a1002f859f021650b774ec2e4869cf77704f994e0df7232af0f73206eac5ebf71f460db4335fb007a5d2eef16a0f5fe76136582186828f5bab09dc10e5270911
+  checksum: 10c0/8e94ee276dc57844747941dc102962d9844b333412bec90abddef957604b2a7e7f25c338fd58573711d67eee003d5110d3a85bf353a56bfe6fb3fec8263c5961
   languageName: node
   linkType: hard
 
