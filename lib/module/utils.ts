@@ -74,7 +74,8 @@ export const getConfigInstance = <T extends Class>(base: T, transformOptions?: T
     })
 
     const { parsed: environmentVariables = {} } = configDotenv({
-        override: false
+        override: false,
+        path: process.env.DOTENV_CONFIG_PATH
     })
 
     const storage = getMetadataStorage()
