@@ -33,6 +33,9 @@ A utility library designed to simplify configuration management in TypeScript an
 ### 8. Reads environment variables from .env files using dotenv
 - Out-of-the-box integration with [dotenv](https://github.com/motdotla/dotenv) library for reading environment variables
 
+### 9. Supports `DOTENV_CONFIG_PATH` environment variable
+- Switch or load dotenv environment from a different path
+
 ## Installation
 
 ### yarn
