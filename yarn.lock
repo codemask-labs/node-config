@@ -485,7 +485,7 @@ __metadata:
     "@nestjs/platform-express": "npm:11.0.7"
     "@nestjs/typeorm": "npm:11.0.0"
     "@types/jest": "npm:29.5.14"
-    "@types/node": "npm:22.10.10"
+    "@types/node": "npm:22.13.14"
     "@types/pg": "npm:8.11.10"
     "@types/ramda": "npm:0.30.2"
     chalk: "npm:4.1.2"
@@ -1676,12 +1676,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:22.10.10":
-  version: 22.10.10
-  resolution: "@types/node@npm:22.10.10"
+"@types/node@npm:22.13.14":
+  version: 22.13.14
+  resolution: "@types/node@npm:22.13.14"
   dependencies:
     undici-types: "npm:~6.20.0"
-  checksum: 10c0/3425772d4513cd5dbdd87c00acda088113c03a97445f84f6a89744c60a66990b56c9d3a7213d09d57b6b944ae8ff45f985565e0c1846726112588e33a22dd12b
+  checksum: 10c0/fa2ab5b8277bfbcc86c42e46a3ea9871b0d559894cc9d955685d17178c9499f0b1bf03d1d1ea8d92ef2dda818988f4035acb8abf9dc15423a998fa56173ab804
   languageName: node
   linkType: hard
 
