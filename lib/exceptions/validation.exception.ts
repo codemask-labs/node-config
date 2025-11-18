@@ -6,9 +6,9 @@ export class ValidationException extends Error {
         const failedConstraints = validationErrors
             .map(error => {
                 const [constraint] = Object.values(error.constraints ?? {})
-                const message = constraint || `${error.property} failed for unknown reason or constraint`
+                const message = constraint !== '' ? constraint : `${error.property} failed for unknown reason or constraint`
 
-                return gray(`- ${message} ${blue(`(was: ${error.value || 'undefined'})`)}`)
+                return gray(`- ${message} ${blue(`(was: ${error.value ?? 'undefined'})`)}`)
             })
             .join('\r\n')
 

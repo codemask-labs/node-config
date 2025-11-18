@@ -9,8 +9,9 @@ import { registry } from './constants'
 
 export const registerConfigDefaults = (base: Class) => {
     if (!registry.has(base)) {
-        const dependencies: Array<Class> = Reflect.getMetadata('design:paramtypes', base) || []
+        const dependencies: Array<Class> = Reflect.getMetadata('design:paramtypes', base) ?? []
 
+        // eslint-disable-next-line functional/immutable-data
         registry.set(base, {
             base,
             dependencies,
@@ -28,6 +29,7 @@ export const registerConfigTransformOptions = (base: Class, transformOptions?: C
         throw new Error(`Failed to find registered config. Make sure to decorate a class with @Config()!`)
     }
 
+    // eslint-disable-next-line functional/immutable-data
     registry.set(base, {
         ...current,
         transformOptions
@@ -41,10 +43,11 @@ export const registerConfigTransformTranslations = (base: Class, propertyName: s
         throw new Error(`Failed to find registered config. Make sure to decorate a class with @Config()!`)
     }
 
+    // eslint-disable-next-line functional/immutable-data
     registry.set(base, {
         ...current,
         propertyNameTranslations: {
-            ...current?.propertyNameTranslations,
+            ...current.propertyNameTranslations,
             [propertyName]: environmentPropertyName
         }
     })
@@ -57,7 +60,7 @@ export const getConfigInstance = <T extends Class>(base: T, transformOptions?: T
         throw new Error(`Failed to find registered config. Make sure to decorate a class with @Config()!`)
     }
 
-    if (registeredDependency.instance) {
+    if (isNotNil(registeredDependency.instance)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return registeredDependency.instance
     }
@@ -80,27 +83,26 @@ export const getConfigInstance = <T extends Class>(base: T, transformOptions?: T
 
     const storage = getMetadataStorage()
     const metadatas = storage.getTargetValidationMetadatas(base, base.name, false, false)
-    const transformedProperties = metadatas.reduce(
-        (acc, { propertyName, target }) => {
-            if (acc[propertyName]) {
-                return acc
-            }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const transformedProperties = metadatas.reduce<Record<string, any>>((acc, { propertyName, target }) => {
+        if (isNotNil(acc[propertyName])) {
+            return acc
+        }
 
-            const prototype: object = typeof target === 'function' ? target.prototype : {}
-            const environmentPropertyName = registeredDependency.propertyNameTranslations[propertyName]
+        const prototype: object = typeof target === 'function' ? target.prototype : {}
+        const environmentPropertyName = registeredDependency.propertyNameTranslations[propertyName]
 
-            const key = environmentPropertyName || propertyName
-            const value = environmentVariables[key] || process.env[key]
-            const type = Reflect.getMetadata('design:type', prototype, propertyName)
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        const key = environmentPropertyName || propertyName
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        const value = environmentVariables[key] || process.env[key]
+        const type = Reflect.getMetadata('design:type', prototype, propertyName)
 
-            return {
-                ...acc,
-                [propertyName]: isNotNil(value) ? toValueByType(type, value) : value
-            }
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        {} as Record<string, any>
-    )
+        return {
+            ...acc,
+            [propertyName]: isNotNil(value) ? toValueByType(type, value) : value
+        }
+    }, {})
 
     /**
      * Make the instance methods, auto-bindable to "this" reference so we can destruct the
@@ -114,18 +116,15 @@ export const getConfigInstance = <T extends Class>(base: T, transformOptions?: T
 
     const descriptors = Object.getOwnPropertyDescriptors(base.prototype)
     const descriptorNames = Object.keys(descriptors).filter(name => name !== 'constructor')
-    const unreferencedMethods = descriptorNames.reduce(
-        (result, name) => {
-            const descriptor = descriptors[name]
+    const unreferencedMethods = descriptorNames.reduce<Record<string, () => void>>((result, name) => {
+        const descriptor = descriptors[name]
 
-            return {
-                ...result,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, functional/functional-parameters
-                [name]: (...args: Array<any>) => descriptor.value.apply(instance, args)
-            }
-        },
-        {} as Record<string, () => void>
-    )
+        return {
+            ...result,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, functional/functional-parameters
+            [name]: (...args: Array<any>) => descriptor.value.apply(instance, args)
+        }
+    }, {})
 
     /**
      * Due to missing option for passing constructor arguments, we are creating
@@ -137,7 +136,7 @@ export const getConfigInstance = <T extends Class>(base: T, transformOptions?: T
         static readonly name = base.name
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, functional/functional-parameters
-        constructor(...unusedArgs: Array<any>) {
+        constructor(...args: Array<any>) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             super(...resolvedDependencies)
         }
@@ -161,7 +160,7 @@ export const getConfigInstance = <T extends Class>(base: T, transformOptions?: T
         }
     })
 
-    if (validationErrors.length) {
+    if (validationErrors.length > 0) {
         throw new ValidationException(base.name, validationErrors)
     }
 
@@ -171,6 +170,7 @@ export const getConfigInstance = <T extends Class>(base: T, transformOptions?: T
         instance
     }
 
+    // eslint-disable-next-line functional/immutable-data
     registry.set(base, config)
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
