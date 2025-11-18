@@ -4,7 +4,7 @@ import { Class, getConfigInstance } from 'lib/module'
 export const getConfigValue = <T extends Class<any>, U>(constructor: T, getter: (config: InstanceType<T>) => U) => {
     const instance = getConfigInstance(constructor)
 
-    if (!instance) {
+    if (instance === null || instance === undefined) {
         throw new Error('Failed to find instance')
     }
 
