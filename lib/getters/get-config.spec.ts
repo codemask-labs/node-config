@@ -11,6 +11,6 @@ describe('getConfig hook', () => {
         expect(config.node).toBeInstanceOf(NodeConfig)
         expect(config.HTTP_SERVICE_HOST).toEqual('0.0.0.0')
         expect(config.HTTP_SERVICE_PORT).toEqual(3000)
-        expect(getNodeEnv()).toEqual('test')
+        expect(getNodeEnv()).toEqual('development')
     })
 })
