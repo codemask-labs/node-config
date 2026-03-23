@@ -1,4 +1,6 @@
+import { IsString } from 'class-validator'
 import { registry } from 'lib/module/constants'
+import { getConfigInstance } from 'lib/module/utils'
 import { Config } from './config.decorator'
 import { Env } from './env.decorator'
 
@@ -47,5 +49,28 @@ describe('@Env decorator', () => {
         }
 
         expect(registry.has(ImplicitConfig)).toBe(true)
+
+        const entry = registry.get(ImplicitConfig)
+
+        expect(entry?.propertyNameTranslations).toEqual({
+            value: 'SOME_VAR'
+        })
+    })
+
+    it('resolves the actual env value through @Env translation', () => {
+        process.env.SOME_VAR = 'hello-from-env'
+
+        @Config()
+        class ResolvedEnvConfig {
+            @IsString()
+            @Env('SOME_VAR')
+            readonly value: string
+        }
+
+        const instance = getConfigInstance(ResolvedEnvConfig)
+
+        expect(instance.value).toBe('hello-from-env')
+
+        delete process.env.SOME_VAR
     })
 })
