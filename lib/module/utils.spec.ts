@@ -4,12 +4,7 @@ import { NodeEnv } from 'example/enums'
 import { ValidationException } from 'lib/exceptions'
 import { Class } from './types'
 import { registry } from './constants'
-import {
-    registerConfigDefaults,
-    registerConfigTransformOptions,
-    registerConfigTransformTranslations,
-    getConfigInstance
-} from './utils'
+import { registerConfigDefaults, registerConfigTransformOptions, registerConfigTransformTranslations, getConfigInstance } from './utils'
 
 beforeEach(() => {
     registry.clear()
@@ -143,9 +138,7 @@ describe('getConfigInstance', () => {
     it('throws if config is not registered', () => {
         class UnregisteredConfig {}
 
-        expect(() => getConfigInstance(UnregisteredConfig)).toThrow(
-            'Failed to find registered config. Make sure to decorate a class with @Config()!'
-        )
+        expect(() => getConfigInstance(UnregisteredConfig)).toThrow('Failed to find registered config. Make sure to decorate a class with @Config()!')
     })
 
     it('returns a cached instance on subsequent calls', () => {
