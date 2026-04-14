@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.2.0](https://github.com/codemask-labs/node-config/compare/2.1.0...2.2.0) (2026-04-14)
+
+### Features
+
+* added uni tests ([0aa9dfd](https://github.com/codemask-labs/node-config/commit/0aa9dfdf2b893933669cad338e9eb565b96a4cc3))
+
 ## [2.1.0](///compare/2.0.3...2.1.0) (2025-11-19)
 
 ### Features
